@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace PicSimulatorGUI
 {
     class Cpu
-    {
+    {  
         Simulator sim;
         public Cpu(Simulator x)
         {
@@ -110,7 +110,7 @@ namespace PicSimulatorGUI
             int pclathBits = (Read(0xA) & 0x18) << 8;
 
             sim.Pc = (address + pclathBits) - 1;
-            //check if timer needs to be incremented
+            //check if timer needs to be incremented 
             if (Read(1) != 0 && ((Read(0x81) >> 5) & 1) == 0)
             {
                 sim.partTimer++;

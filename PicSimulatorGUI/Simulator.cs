@@ -41,6 +41,8 @@ namespace PicSimulatorGUI
         public Decode decode;
         public Cpu cpu;
 
+        public Memory memory;
+
         //eprom arrays
         public int[] eprompositions;
         public int[] eprom;
@@ -51,6 +53,7 @@ namespace PicSimulatorGUI
 
         public Simulator()
         {
+            memory = new Memory(this);
             cpu = new Cpu(this);
             decode = new Decode(cpu);
             fillNewTable();
