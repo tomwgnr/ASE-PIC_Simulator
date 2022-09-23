@@ -1,0 +1,145 @@
+\documentclass[12pt,a4paper,titlepage,ngerman,pdftex]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{acronym}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{textcomp}
+\geometry{a4paper, top=25mm, left=25mm, right=25mm, bottom=25mm,
+    headsep=10mm, footskip=12mm}
+\usepackage{xcolor}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.827, 0.827, 0.827}
+\definecolor{dkblue}{rgb}{0,0,.6}
+\definecolor{dkyellow}{cmyk}{0,0,.8,.3}
+
+\lstset{
+    language        = php,
+    basicstyle      = \small\ttfamily,
+    keywordstyle    = \color{dkblue},
+    stringstyle     = \color{red},
+    identifierstyle = \color{mygreen},
+    commentstyle    = \color{gray},
+    emph            =[1]{php},
+    emphstyle       =[1]\color{black},
+    emph            =[2]{if,and,or,else},
+    emphstyle       =[2]\color{dkyellow}}
+
+\lstset{ %
+    backgroundcolor=\color{backcolour},   % choose the background color
+    basicstyle=\footnotesize,        % size of fonts used for the code
+    breaklines=true,                 % automatic line breaking only at whitespace
+    captionpos=b,                    % sets the caption-position to bottom
+    commentstyle=\color{mygreen},    % comment style
+    escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+    keywordstyle=\color{blue},       % keyword style
+    stringstyle=\color{mymauve},     % string literal stylebreakatwhitespace=false,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=true,
+    showtabs=false,
+    tabsize=2
+}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%    TITLE    %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{titlepage}
+        \centering
+        %\includegraphics[width=0.15\textwidth]{pic/picsim_logo_full.png}\par\vspace{1cm}
+        {\scshape\LARGE Duale Hochschule Baden-Württemberg \par}
+        \vspace{1cm}
+        {\scshape\Large Advanced Software Engineering 2 \\--\\ Dokumentation\par}
+        \vspace{1.5cm}
+        {\huge\bfseries PIC-Simulator\par}
+        \vspace{2cm}
+        {\Large\itshape David Eymann, Tom Wagner\par}
+        \vfill
+        Dozent\par
+        Daniel \textsc{Lindner}
+
+        \vfill
+
+% Bottom of the page
+        {\large \today\par}
+    \end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%  LISTINGS  %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \pagenumbering{Roman}
+    \tableofcontents
+    \listoffigures
+    \lstlistoflistings
+
+    \onehalfspacing
+    \pagenumbering{arabic}
+
+    \chapter{Projektbeschreibung}\label{ch:projektbeschreibung}
+    Als Basis für diese Arbeit dient ein PIC-Simulator, PIC steht hierbei für ein Mikrocontroller von Microchip Technology\footnote{\url{https://en.wikipedia.org/wiki/Microchip_Technology}}.
+    Der Simulator ist in C-\# geschrieben und mit Windows Forms Erhält er seine Grafische Oberfläche.
+    \textbf{Das für diese Abgabe relevante Repository befindet sich unter:} \\ \url{https://github.com/tomwgnr/ASE-PIC_Simulator}\\
+    
+    
+
+    \section{Einrichtung}\label{sec:einrichtung}
+
+    \chapter{Entwicklung}\label{ch:entwicklung}
+    \section{Clean Architecture}\label{sec:cleanarchitecture}
+ 
+    \section{Refactoring}\label{sec:refactoring}
+
+    \section{Unit Tests}
+
+    \subsection{Einsatz von Mocks}
+
+    \subsection{ATRIP-Regeln}
+
+    \subsubsection{Automatic}
+
+    \subsubsection{Thorough}\label{subsec:thorough}
+
+    \subsubsection{Repeatable}
+
+    \subsubsection{Independent}
+
+    \subsubsection{Professional}
+
+    \section{Programming Principles}
+
+    \subsection{SOLID}
+    
+    \subsubsection{Single responsibility principle}
+
+    \subsubsection{Open/Closed principle}
+
+    \subsubsection{Liskov substitution principle}
+
+    \subsubsection{Interface segregation principle}
+
+    \subsubsection{Dependency inversion principle}
+
+    \subsection{GRASP}
+
+    \subsubsection{High Cohesion}
+
+    \subsubsection{Low Coupling}
+    
+    \subsection{DRY -- Don't Repeat Yourself}
+
+\end{document}
