@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace PicSimulatorGUI
 
         public void Addlw(int literal)
         {
-            //digitcarry check
+            digitcarry check
             if ((literal & 0xF) +(sim.W & 0xF) > 0xF)
             {
                 Bsf(1, 3);
@@ -54,7 +55,7 @@ namespace PicSimulatorGUI
 
         public void Sublw(int literal)
         {
-            //digit carry check
+            digit carry check
             if ((literal & 0xF) - (sim.W & 0xF) < 0)
             {
                 Bcf(1, 3);
@@ -97,7 +98,7 @@ namespace PicSimulatorGUI
             sim.W = literal;
             sim.Pc = sim.returnAddr[sim.s_pointer];
             sim.s_pointer--;
-            //check if timer needs to be incremented
+            check if timer needs to be incremented
             if (Read(1) != 0 && ((Read(0x81) >> 5) & 1) == 0)
             {
                 sim.partTimer++;
@@ -110,7 +111,7 @@ namespace PicSimulatorGUI
             int pclathBits = (Read(0xA) & 0x18) << 8;
 
             sim.Pc = (address + pclathBits) - 1;
-            //check if timer needs to be incremented 
+            check if timer needs to be incremented 
             if (Read(1) != 0 && ((Read(0x81) >> 5) & 1) == 0)
             {
                 sim.partTimer++;
@@ -132,7 +133,7 @@ namespace PicSimulatorGUI
 
             sim.Pc = (address + pclathBits) - 1;
 
-            //check if timer needs to be incremented
+            check if timer needs to be incremented
             if (Read(1) != 0 && ((Read(0x81) >> 5) & 1) == 0)
             {
                 sim.partTimer++;
@@ -148,7 +149,7 @@ namespace PicSimulatorGUI
             if (value == 1)
             {
                 sim.Pc++;
-                //check if timer needs to be incremented
+                check if timer needs to be incremented
                 if (Read(1) != 0 && ((Read(0x81) >> 5) & 1) == 0)
                 {
                     sim.partTimer++;
@@ -179,7 +180,7 @@ namespace PicSimulatorGUI
             if (value == 0)
             {
                 sim.Pc++;
-                //check if timer needs to be incremented
+                check if timer needs to be incremented
                 if (Read(1) != 0 && ((Read(0x81) >> 5) & 1) == 0)
                 {
                     sim.partTimer++;
@@ -190,7 +191,7 @@ namespace PicSimulatorGUI
 
         public void Addwf(int destination, int f_address)
         {
-            //digitcarry check
+            digitcarry check
             if ((Read(f_address) & 0xF) + (sim.W & 0xF) > 0xF)
             {
                 Bsf(1, 3);
@@ -221,7 +222,7 @@ namespace PicSimulatorGUI
 
         public void Subwf(int destination, int f_address)
         {
-            //digit carry check
+            digit carry check
             if ((Read(f_address) & 0xF) - (sim.W & 0xF) < 0)
             {
                 Bcf(1, 3);
@@ -334,7 +335,7 @@ namespace PicSimulatorGUI
             if (value == 0)
             {
                 sim.Pc++;
-                //check if timer needs to be incremented
+                check if timer needs to be incremented
                 if(Read(1) != 0 && ((Read(0x81) >> 5) & 1) == 0)
                 {
                     sim.partTimer++;
@@ -375,7 +376,7 @@ namespace PicSimulatorGUI
             if (value == 0)
             {
                 sim.Pc++;
-                //check if timer needs to be incremented
+                check if timer needs to be incremented
                 if (Read(1) != 0 && ((Read(0x81) >> 5) & 1) == 0)
                 {
                     sim.partTimer++;
@@ -428,7 +429,7 @@ namespace PicSimulatorGUI
         public void Clrwdt()
         {
             sim.wdTimer = 0;
-            //clear prescaler
+            clear prescaler
             Write(Read(0x81) & 0xF8, 0x81);
         }
 
@@ -442,7 +443,7 @@ namespace PicSimulatorGUI
             }
             sim.s_pointer--;
 
-            //check if timer needs to be incremented
+            check if timer needs to be incremented
             if (Read(1) != 0 && ((Read(0x81) >> 5) & 1) == 0)
             {
                 sim.partTimer++;
@@ -459,7 +460,7 @@ namespace PicSimulatorGUI
             }
             sim.s_pointer--;
 
-            //check if timer needs to be incremented
+            check if timer needs to be incremented
             if (Read(1) != 0 && ((Read(0x81) >> 5) & 1) == 0)
             {
                 sim.partTimer++;
@@ -511,7 +512,7 @@ namespace PicSimulatorGUI
                 value += 0x80;
             }
             
-            //check if bit0 is 1
+            check if bit0 is 1
             if(bit0 == 1)
             {
                 Bsf(0, 3);
@@ -583,7 +584,7 @@ namespace PicSimulatorGUI
             DataRow foundRow;
             DataRow foundRow2;
 
-            //TMR0 register
+            TMR0 register
             if (f_address == 1)  
             {
                 sim.partTimer = 0;
@@ -594,7 +595,7 @@ namespace PicSimulatorGUI
             value &= 0xFF;
 
 
-            //Manipulation of PCL register
+            Manipulation of PCL register
             if (f_address == 2 || f_address == 0x82)
             {
                 sim.Pc = (((Read(0xA) & 0x1F) << 8) + value);
@@ -602,7 +603,7 @@ namespace PicSimulatorGUI
 
 
 
-            //indirect addressing
+            indirect addressing
             if (f_address == 0 || f_address == 0x80)
             {
                 f_address = Read(4);
@@ -615,7 +616,7 @@ namespace PicSimulatorGUI
             int column = (f_address % 8) +1;
                 
 
-            //mirroring banks GPR
+            mirroring banks GPR
             if ((f_address >= 0xc && f_address <= 0x7F) || f_address == 0x2 || f_address == 0x3 || f_address == 0x4 || f_address == 0xA || f_address == 0xB)
             {
                 foundRow = sim.table.Rows.Find(key.ToString("X"));
@@ -648,9 +649,9 @@ namespace PicSimulatorGUI
             }
             else
             {
-                //non mirroring registers SFR
+                non mirroring registers SFR
 
-                //check RP0 Bit
+                check RP0 Bit
                 if ((Read(3) & 0x20) == 0x20)
                 {
 
@@ -663,7 +664,7 @@ namespace PicSimulatorGUI
 
                 if (foundRow != null)
                 {
-                    //writing on ports
+                    writing on ports
                     if (f_address == 5)
                     {
                         value &= (0xFF ^ Read(0x85));
@@ -693,14 +694,14 @@ namespace PicSimulatorGUI
 
 
            
-            //check RP0 Bit
+            check RP0 Bit
             if (((int.Parse((string)sim.table.Rows.Find("0")["3"], System.Globalization.NumberStyles.HexNumber) & 0x20) == 0x20) && f_address <= 0x7F)
             {
                 f_address += 0x80;
             }
 
 
-            //indirect addressing
+            indirect addressing
             if (f_address == 0 )
             {
                 f_address = Read(4);
@@ -736,3 +737,4 @@ namespace PicSimulatorGUI
 
     }
 }
+*/

@@ -9,10 +9,11 @@ namespace PicSimulatorGUI
 {
     class Decode
     {
-        Cpu cpu;
-        public Decode(Cpu x)
+        public Memory memory;
+
+        public Decode( Memory mem)
         {
-            cpu = x;
+            memory = mem;
         }
 
         public void analyse(int operation)
@@ -66,37 +67,44 @@ namespace PicSimulatorGUI
             {
                 case 0xE00:
                     Console.WriteLine("ADDLW");
-                    cpu.Addlw(literal);
+                    commands.Addlw addlw = new commands.Addlw(ref memory);
+                    addlw.execute(literal);
                     break;
                 case 0x800:
                     if (bit8check == 0)
                     {
                         Console.WriteLine("IORLW");
-                        cpu.Iorlw(literal);
+                        commands.Iorlw iorlw = new commands.Iorlw(ref memory);
+                        iorlw.execute(literal);
                     }
                     else
                     {
                         Console.WriteLine("ANDLW");
-                        cpu.Andlw(literal);
+                        commands.Andlw andlw = new commands.Andlw(ref memory);
+                        andlw.execute(literal);
                     }
                     break;
                 case 0xC00:
                     Console.WriteLine("SUBLW");
-                    cpu.Sublw(literal);
+                    commands.Sublw sublw = new commands.Sublw(ref memory);
+                    sublw.execute(literal);
                     break;
                 case 0xA00:
                     Console.WriteLine("XORLW");
-                    cpu.Xorlw(literal);
+                    commands.Xorlw xorlw = new commands.Xorlw(ref memory);
+                    xorlw.execute(literal);
                     break;
                 case 0x000:
                 case 0x200:
                     Console.WriteLine("MOVLW");
-                    cpu.Movlw(literal);
+                    commands.Movlw movlw = new commands.Movlw(ref memory);
+                    movlw.execute(literal);
                     break;
                 case 0x400:
                 case 600:
                     Console.WriteLine("RETLW");
-                    cpu.Retlw(literal);
+                    commands.Retlw retlw = new commands.Retlw(ref memory);
+                    retlw.execute(literal);
                     break;
                 default:
                     Console.WriteLine("invalid Opcode");
@@ -116,11 +124,13 @@ namespace PicSimulatorGUI
             {
                 case 0x800:
                     Console.WriteLine("GOTO");
-                    cpu.Goto(p_address);
+                    commands.Goto _goto = new commands.Goto(ref memory);
+                    _goto.execute(p_address);
                     break;
                 case 0x000:
                     Console.WriteLine("CALL");
-                    cpu.Call(p_address);
+                    commands.Call call = new commands.Call(ref memory);
+                    call.execute(p_address);
                     break;
                 default:
                     Console.WriteLine("invalid Opcode");
@@ -139,19 +149,23 @@ namespace PicSimulatorGUI
             {
                 case 0x0:
                     Console.WriteLine("BCF");
-                    cpu.Bcf(b_address, f_address);
+                    commands.Bcf bcf = new commands.Bcf(ref memory);
+                    bcf.execute(b_address, f_address);
                     break;
                 case 0x400:
                     Console.WriteLine("BSF");
-                    cpu.Bsf(b_address, f_address);
+                    commands.Bsf bsf = new commands.Bsf(ref memory);
+                    bsf.execute(b_address, f_address);
                     break;
                 case 0x800:
                     Console.WriteLine("BTFSC");
-                    cpu.Btfsc(b_address, f_address);
+                    commands.Btfsc btfsc = new commands.Btfsc(ref memory);
+                    btfsc.execute(b_address, f_address);
                     break;
                 case 0xC00:
                     Console.WriteLine("BTFSS");
-                    cpu.Btfss(b_address, f_address);
+                    commands.Btfss btfss = new commands.Btfss(ref memory);
+                    btfss.execute(b_address, f_address);
                     break;
                 default:
                     Console.WriteLine("invalid Opcode");
@@ -172,51 +186,62 @@ namespace PicSimulatorGUI
             {
                 case 0x700:
                     Console.WriteLine("ADDWF");
-                    cpu.Addwf(destination, f_address);
+                    commands.Addwf addwf = new commands.Addwf(ref memory);
+                    addwf.execute(destination, f_address);
                     break;
                 case 0x500:
                     Console.WriteLine("ANDWF");
-                    cpu.Andwf(destination, f_address);
+                    commands.Addwf andwf = new commands.Addwf(ref memory);
+                    andwf.execute(destination, f_address);
                     break;
                 case 0x100:
                     if (bit7check == 0)
                     {
                         Console.WriteLine("CLRW");
-                        cpu.Clrw();
+                        commands.Clrw clrw = new commands.Clrw(ref memory);
+                        clrw.execute();
                     }
                     else
                     {
                         Console.WriteLine("CLRF");
-                        cpu.Clrf(f_address);
+                        commands.Clrf clrf = new commands.Clrf(ref memory);
+                        clrf.execute(f_address);
                     }
                     break;
                 case 0x900:
                     Console.WriteLine("COMF");
-                    cpu.Comf(destination, f_address);
+                    commands.Comf comf = new commands.Comf(ref memory);
+                    comf.execute(destination, f_address);
                     break;
                 case 0x300:
                     Console.WriteLine("DECF");
-                    cpu.Decf(destination, f_address);
+                    commands.Decf decf = new commands.Decf(ref memory);
+                    decf.execute(destination, f_address);
                     break;
                 case 0xB00:
                     Console.WriteLine("DECFSZ");
-                    cpu.Decfsz(destination, f_address);
+                    commands.Decfsz decfsz = new commands.Decfsz(ref memory);
+                    decfsz.execute(destination, f_address);
                     break;
                 case 0xA00:
                     Console.WriteLine("INCF");
-                    cpu.Incf(destination, f_address);
+                    commands.Incf incf = new commands.Incf(ref memory);
+                    incf.execute(destination, f_address);
                     break;
                 case 0xF00:
                     Console.WriteLine("INCFSZ");
-                    cpu.Incfsz(destination, f_address);
+                    commands.Incfsz incfsz = new commands.Incfsz(ref memory);
+                    incfsz.execute(destination, f_address);
                     break;
                 case 0x400:
                     Console.WriteLine("IORWF");
-                    cpu.Iorwf(destination, f_address);
+                    commands.Iorwf iorwf = new commands.Iorwf(ref memory);
+                    iorwf.execute(destination, f_address);
                     break;
                 case 0x800:
                     Console.WriteLine("MOVF");
-                    cpu.Movf(destination, f_address);
+                    commands.Movf movf = new commands.Movf(ref memory);
+                    movf.execute(destination, f_address);
                     break;
                 case 0x000:
                     int rest8 = rest12 & 0xFF;
@@ -224,32 +249,38 @@ namespace PicSimulatorGUI
                     {
                         case 0x64:
                             Console.WriteLine("CLRWDT");
-                            cpu.Clrwdt();
+                            commands.Clrwdt clrwdt = new commands.Clrwdt(ref memory);
+                            clrwdt.execute();
                             break;
                         case 0x9:
                             Console.WriteLine("RETFIE");
-                            cpu.Retfie();
+                            commands.Retfie retfie = new commands.Retfie(ref memory);
+                            retfie.execute();
                             break;
                         case 0x8:
                             Console.WriteLine("RETURN");
-                            cpu.Return();
+                            commands.Return _return = new commands.Return(ref memory);
+                            _return.execute();
                             break;
                         case 0x63:
                             Console.WriteLine("SLEEP");
-                            cpu.Sleep();
+                            commands.Sleep sleep = new commands.Sleep();
+                            sleep.execute();
                             break;
                         case 0x0:
                         case 0x20:
                         case 0x40:
                         case 0x60:
                             Console.WriteLine("NOP");
-                            cpu.Nop();
+                            commands.Nop nop = new commands.Nop();
+                            nop.execute();
                             break;
                         default:
                             if (bit7check == 0x80)
                             {
                                 Console.WriteLine("MOVWF");
-                                cpu.Movwf(f_address);
+                                commands.Movwf movwf = new commands.Movwf(ref memory);
+                                movwf.execute(f_address);
                             }
                             else
                             {
@@ -262,23 +293,28 @@ namespace PicSimulatorGUI
                     break;
                 case 0xD00:
                     Console.WriteLine("RLF");
-                    cpu.Rlf(destination, f_address);
+                    commands.Rlf rlf = new commands.Rlf(ref memory);
+                    rlf.execute(destination, f_address);
                     break;
                 case 0xC00:
                     Console.WriteLine("RRF");
-                    cpu.Rrf(destination, f_address);
+                    commands.Rrf rrf = new commands.Rrf(ref memory);
+                    rrf.execute(destination, f_address);
                     break;
                 case 0x200:
                     Console.WriteLine("SUBWF");
-                    cpu.Subwf(destination, f_address);
+                    commands.Subwf subwf = new commands.Subwf(ref memory);
+                    subwf.execute(destination, f_address);
                     break;
                 case 0xE00:
                     Console.WriteLine("SWAPF");
-                    cpu.Swapf(destination, f_address);
+                    commands.Swapf swapf = new commands.Swapf(ref memory);
+                    swapf.execute(destination, f_address);
                     break;
                 case 0x600:
                     Console.WriteLine("XORWF");
-                    cpu.Xorwf(destination, f_address);
+                    commands.Xorwf xorwf = new commands.Xorwf(ref memory);
+                    xorwf.execute(destination, f_address);
                     break;
 
                 default:

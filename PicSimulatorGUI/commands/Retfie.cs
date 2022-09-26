@@ -10,7 +10,7 @@ namespace PicSimulatorGUI.commands
         {
             memory = mem;
         }
-        public void execute(int destinationBit, int registerAddress)
+        public void execute()
         {
             memory.writeBit(0xB, 7, 1);
             memory.setProgramCounter(memory.returnAddr[memory.stackPointer]);
