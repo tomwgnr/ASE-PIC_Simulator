@@ -27,17 +27,17 @@ namespace PicSimulatorGUI
         public int Pc;
         public int timer;
         public int partTimer;
-        public int wdTimer;
-        public int s_pointer = 0;
+        //public int wdTimer;
+        //public int s_pointer = 0;
         public int oldRB4 = 0;
         public int oldRB0;
         public int RB0;
-        public int[] returnAddr = new int[6];
+        //public int[] returnAddr = new int[6];
         public double qf;
         public double runtime = 0;
 
         
-        public int W = 0;   //W-Register
+
         public Decode decode;
         public Cpu cpu;
 
@@ -174,7 +174,7 @@ namespace PicSimulatorGUI
                 //Pc++;
             }
 
-            W &= 0xFF;
+            memory.W &= 0xFF;
             Pc++;
             Pc &= 0x1FFF;
 

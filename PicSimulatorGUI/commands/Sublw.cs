@@ -2,12 +2,12 @@
 namespace PicSimulatorGUI.commands
 {
 
-    class Addlw : Command
+    class Sublw : Command
     {
 
         Memory memory;
 
-        public Addlw(ref Memory mem)
+        public Sublw(ref Memory mem)
         {
             memory = mem;
         }
@@ -15,7 +15,7 @@ namespace PicSimulatorGUI.commands
         {
             digitCarryCheck(literal);
 
-            memory.W = memory.W + literal;
+            memory.W = literal - memory.W;
             
             carryCheck(memory.W);
             
@@ -28,6 +28,3 @@ namespace PicSimulatorGUI.commands
 
     }
 }
-
-
-

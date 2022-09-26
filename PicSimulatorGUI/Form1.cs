@@ -19,6 +19,7 @@ namespace PicSimulatorGUI
     {
         string[] input;
         Simulator sim;
+        Memory memory;
         public bool threadRunning = false;
         Thread t;
         DataGridViewRow lastrow;
@@ -217,7 +218,7 @@ namespace PicSimulatorGUI
         //update all the Elements of the GUI while program is running
         public void UpdateWindows()
         {
-            sim.spezialRegister.Rows[0].SetField(0, sim.W.ToString("X") + "h");
+            sim.spezialRegister.Rows[0].SetField(0, memory.W.ToString("X") + "h");
             sim.spezialRegister.Rows[0].SetField(1, sim.table.Rows[0].Field<string>(5));    //FSR
             sim.spezialRegister.Rows[0].SetField(2, sim.table.Rows[0].Field<string>(3));    //PCL
             sim.spezialRegister.Rows[0].SetField(3, sim.table.Rows[1].Field<string>(3));    //PCLATH

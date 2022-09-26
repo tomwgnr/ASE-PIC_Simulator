@@ -1,18 +1,18 @@
 namespace PicSimulatorGUI.commands
 {
 
-    class Iorlw : Command
+    class Xorlw : Command
     {
 
         Memory memory;
 
-        public Iorlw( ref Memory mem)
+        public Xorlw( ref Memory mem)
         {
             memory = mem;
         }
         public void execute(int literal)
         {
-            memory.W |= literal;
+            memory.W ^= literal;
 
             zeroFlagCheck(memory.W);
         }

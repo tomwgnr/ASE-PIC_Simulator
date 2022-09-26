@@ -5,12 +5,39 @@ namespace PicSimulatorGUI
     class Memory
     {
 
-        Simulator sim;
+        Simulator simulator;
+
+        public int W { get; set;}
+
+        public int[] returnAddr = new int[6];
+
+        public int stackPointer = 0;
+        public int wdTimer;
 
         public Memory(Simulator x)
         {
-            sim = x;
+            simulator = x;
         }
+
+        public int getProgramCounter()
+        {
+            return simulator.Pc;
+        }
+
+        public void setProgramCounter(int value)
+        {
+            simulator.Pc = value;
+        }
+
+        public void incrementTimer()
+        {
+            if (readByte(1) != 0 && ((readByte(0x81) >> 5) & 1) == 0)
+            {
+                simulator.partTimer++;
+            }
+            simulator.runtime++;
+        }
+        
 
         public int FindKey(int registerAddress)
         {
@@ -26,7 +53,7 @@ namespace PicSimulatorGUI
         {
 
             //check RP0 Bit
-            if (((int.Parse((string)sim.table.Rows.Find("0")["3"], System.Globalization.NumberStyles.HexNumber) & 0x20) == 0x20) && registerAddress <= 0x7F)
+            if (((int.Parse((string)simulator.table.Rows.Find("0")["3"], System.Globalization.NumberStyles.HexNumber) & 0x20) == 0x20) && registerAddress <= 0x7F)
             {
                 registerAddress += 0x80;
             }
@@ -41,7 +68,7 @@ namespace PicSimulatorGUI
 
             int key = FindKey(registerAddress);
             int column = (registerAddress % 8) + 1;
-            System.Data.DataRow foundRow = sim.table.Rows.Find(key.ToString("X"));
+            System.Data.DataRow foundRow = simulator.table.Rows.Find(key.ToString("X"));
             if (foundRow != null)
             {
                 int value = int.Parse((string)foundRow[column], System.Globalization.NumberStyles.HexNumber);
@@ -70,8 +97,8 @@ namespace PicSimulatorGUI
             //TMR0 register
             if (registerAddress == 1)  
             {
-                sim.partTimer = 0;
-                sim.timer = value;
+                simulator.partTimer = 0;
+                simulator.timer = value;
                     
             }
 
@@ -81,7 +108,7 @@ namespace PicSimulatorGUI
             //Manipulation of PCL register
             if (registerAddress == 2 || registerAddress == 0x82)
             {
-                sim.Pc = (((readByte(0xA) & 0x1F) << 8) + value);
+                simulator.Pc = (((readByte(0xA) & 0x1F) << 8) + value);
             }
 
 
@@ -102,13 +129,13 @@ namespace PicSimulatorGUI
             //mirroring banks GPR
             if ((registerAddress >= 0xc && registerAddress <= 0x7F) || registerAddress == 0x2 || registerAddress == 0x3 || registerAddress == 0x4 || registerAddress == 0xA || registerAddress == 0xB)
             {
-                foundRow = sim.table.Rows.Find(key.ToString("X"));
+                foundRow = simulator.table.Rows.Find(key.ToString("X"));
                 if (foundRow != null)
                 {
                     foundRow[column] = checktwohex(value);
                 }
 
-                foundRow2 = sim.table.Rows.Find((key + 0x80).ToString("X"));
+                foundRow2 = simulator.table.Rows.Find((key + 0x80).ToString("X"));
                 if (foundRow2 != null)
                 {
                     
@@ -118,13 +145,13 @@ namespace PicSimulatorGUI
             }
             else if((registerAddress >= 0x8C && registerAddress <= 0xFF) || registerAddress == 0x82 || registerAddress == 0x83 || registerAddress == 0x84 || registerAddress == 0x8A || registerAddress == 0x8B)
             {
-                foundRow = sim.table.Rows.Find(key.ToString("X"));
+                foundRow = simulator.table.Rows.Find(key.ToString("X"));
                 if (foundRow != null)
                 {
                     foundRow[column] = checktwohex(value);
                 }
 
-                foundRow2 = sim.table.Rows.Find((key - 0x80).ToString("X"));
+                foundRow2 = simulator.table.Rows.Find((key - 0x80).ToString("X"));
                 if (foundRow2 != null)
                 {
                     foundRow2[column] = checktwohex(value);
@@ -138,11 +165,11 @@ namespace PicSimulatorGUI
                 if ((readByte(3) & 0x20) == 0x20)
                 {
 
-                    foundRow = sim.table.Rows.Find((key + 0x80).ToString("X"));
+                    foundRow = simulator.table.Rows.Find((key + 0x80).ToString("X"));
                 }
                 else
                 {
-                    foundRow = sim.table.Rows.Find(key.ToString("X"));
+                    foundRow = simulator.table.Rows.Find(key.ToString("X"));
                 }
 
                 if (foundRow != null)
