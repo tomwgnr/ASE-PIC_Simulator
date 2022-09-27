@@ -11,6 +11,15 @@ namespace PicSimulatorGUI
             
         }
 
+        public virtual void execute(int opcode){
+            
+        }
+
+        public virtual bool isOpCode(int opCode){
+
+            return false;
+        }
+
         public void carryCheck(int value)
         {
             if (value > 0xFF || memory.W > 0xFF)
@@ -76,6 +85,8 @@ namespace PicSimulatorGUI
                 memory.writeByte(registerAddress, value);
             }
         }
+
+        
 
 
 

@@ -1,12 +1,12 @@
 namespace PicSimulatorGUI.commands
 {
 
-    class Iorwf : Command
+    class Andwf : Command
     {
 
         Memory memory;
 
-        public Iorwf( ref Memory mem)
+        public Andwf( ref Memory mem)
         {
             memory = mem;
         }
@@ -15,9 +15,9 @@ namespace PicSimulatorGUI.commands
             int registerAddress = opCode & 0x7F;
             int destinationBit = (opCode & 0x80) / 0x80;
 
-            int value = memory.readByte(registerAddress) | memory.W;
-            
+            int value = (memory.readByte(registerAddress) & memory.W);
             zeroFlagCheck(value);
+
 
             writeToDestination(destinationBit, registerAddress, value);
         
@@ -25,7 +25,7 @@ namespace PicSimulatorGUI.commands
 
         public override bool isOpCode(int opCode){
 
-            if ((opCode & 0x3F00) == 0x400)
+            if ((opCode & 0xF00) == 0x500)
             {
                 return true;
             }

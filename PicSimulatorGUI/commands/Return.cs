@@ -10,7 +10,7 @@ namespace PicSimulatorGUI.commands
         {
             memory = mem;
         }
-        public void execute()
+        public override void execute(int opCode)
         {
             memory.setProgramCounter(memory.returnAddr[memory.stackPointer]);
 
@@ -22,6 +22,16 @@ namespace PicSimulatorGUI.commands
 
             memory.incrementTimer();
         
+        }
+
+        public override bool isOpCode(int opCode){
+
+            if ((opCode & 0x3FFF) == 0x8)
+            {
+                return true;
+            }
+
+            return false;
         }
 
     }
