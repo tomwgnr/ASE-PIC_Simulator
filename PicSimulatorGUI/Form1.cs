@@ -19,6 +19,7 @@ namespace PicSimulatorGUI
     {
         string[] input;
         Simulator sim;
+        Memory memory;
         public bool threadRunning = false;
         Thread t;
         DataGridViewRow lastrow;
@@ -31,6 +32,7 @@ namespace PicSimulatorGUI
         {
             InitializeComponent();
             sim = new Simulator();
+            memory = sim.memory;
 
         }
 
@@ -217,7 +219,7 @@ namespace PicSimulatorGUI
         //update all the Elements of the GUI while program is running
         public void UpdateWindows()
         {
-            sim.spezialRegister.Rows[0].SetField(0, sim.W.ToString("X") + "h");
+            sim.spezialRegister.Rows[0].SetField(0, memory.W.ToString("X") + "h");
             sim.spezialRegister.Rows[0].SetField(1, sim.table.Rows[0].Field<string>(5));    //FSR
             sim.spezialRegister.Rows[0].SetField(2, sim.table.Rows[0].Field<string>(3));    //PCL
             sim.spezialRegister.Rows[0].SetField(3, sim.table.Rows[1].Field<string>(3));    //PCLATH
@@ -282,7 +284,7 @@ namespace PicSimulatorGUI
                 intcon.Rows[0].Cells[i].Value = intco[i];
             }
             
-            Action updateWD = () => lbl_wdtimer.Text = sim.wdTimer.ToString();
+            Action updateWD = () => lbl_wdtimer.Text = memory.wdTimer.ToString();
             Invoke(updateWD);
 
             double time = ((1 / quartz) * sim.runtime) * 4;
@@ -411,7 +413,7 @@ namespace PicSimulatorGUI
 
                 }
                 int intHex = Convert.ToInt32(binary, 2);
-                sim.table.Rows[0].SetField(6, Cpu.checktwohex(intHex));
+                sim.table.Rows[0].SetField(6, Memory.checktwohex(intHex));
             }
         }
 
@@ -439,7 +441,7 @@ namespace PicSimulatorGUI
 
                 }
                 int intHex = Convert.ToInt32(binary, 2);
-                sim.table.Rows[0].SetField(7, Cpu.checktwohex(intHex));
+                sim.table.Rows[0].SetField(7, Memory.checktwohex(intHex));
             }
         }
 
@@ -456,7 +458,7 @@ namespace PicSimulatorGUI
                 try
                 {
                     var x = Int32.Parse(newvalue, System.Globalization.NumberStyles.HexNumber);
-                    sim.table.Rows[e.RowIndex].SetField(e.ColumnIndex, Cpu.checktwohex(x));
+                    sim.table.Rows[e.RowIndex].SetField(e.ColumnIndex, Memory.checktwohex(x));
                 }
                 catch (FormatException)
                 {

@@ -27,19 +27,20 @@ namespace PicSimulatorGUI
         public int Pc;
         public int timer;
         public int partTimer;
-        public int wdTimer;
-        public int s_pointer = 0;
+        //public int wdTimer;
+        //public int s_pointer = 0;
         public int oldRB4 = 0;
         public int oldRB0;
         public int RB0;
-        public int[] returnAddr = new int[6];
+        //public int[] returnAddr = new int[6];
         public double qf;
         public double runtime = 0;
 
         
-        public int W = 0;   //W-Register
+
         public Decode decode;
-        public Cpu cpu;
+
+        public Memory memory;
 
         //eprom arrays
         public int[] eprompositions;
@@ -51,8 +52,9 @@ namespace PicSimulatorGUI
 
         public Simulator()
         {
-            cpu = new Cpu(this);
-            decode = new Decode(cpu);
+            memory = new Memory(this);
+            //cpu = new Cpu(this);
+            decode = new Decode(memory);
             fillNewTable();
             fillextratables();
         }
@@ -156,7 +158,7 @@ namespace PicSimulatorGUI
         {
            
             //set timer
-            table.Rows.Find("0")["1"] = Cpu.checktwohex((timer & 0xFF));
+            table.Rows.Find("0")["1"] = Memory.checktwohex((timer & 0xFF));
 
             
 
@@ -166,17 +168,30 @@ namespace PicSimulatorGUI
 
             if (interruptCheck())
             {
-                cpu.Bcf(7, 0xB);
-                cpu.Call(4);
+                memory.writeBit(0xB, 7, 0);
+
+                if (memory.stackPointer == 7) 
+                {
+                    memory.stackPointer = 0;
+                }
+
+                memory.stackPointer++;
+
+                memory.returnAddr[memory.stackPointer] = memory.getProgramCounter();
+                int pclathBits = (memory.readByte(0xA) & 0x18) << 8;
+
+                memory.setProgramCounter((4 + pclathBits) - 1);
+
+                memory.incrementTimer();
                 //Pc++;
             }
 
-            W &= 0xFF;
+            memory.W &= 0xFF;
             Pc++;
             Pc &= 0x1FFF;
 
             //set pcl
-            table.Rows.Find("0")["2"] = Cpu.checktwohex((Pc & 0xFF));
+            table.Rows.Find("0")["2"] = Memory.checktwohex((Pc & 0xFF));
 
             timerInit();
             runtime++;
@@ -217,8 +232,8 @@ namespace PicSimulatorGUI
             Array.Resize(ref eprom, count);
             Array.Resize(ref eprompositions, count);
 
-            oldRB0 = cpu.Read(6) & 1;
-            cpu.Write(0xFF, 0x81);
+            oldRB0 = memory.readByte(6) & 1;
+            memory.writeByte(0x81, 0xFF);
         }
 
         public void timerInit()
@@ -228,24 +243,24 @@ namespace PicSimulatorGUI
 
 
 
-            if (((cpu.Read(0x81) >> 3) & 1) == 0)
+            if (((memory.readByte(0x81) >> 3) & 1) == 0)
             {
-                prescaler = (int)Math.Pow(2, 1 + (cpu.Read(0x81) & 7));
+                prescaler = (int)Math.Pow(2, 1 + (memory.readByte(0x81) & 7));
                 wdPrescaler = 1;
             }
             else
             {
-                wdPrescaler = 2 ^ (cpu.Read(0x81) & 7);
+                wdPrescaler = 2 ^ (memory.readByte(0x81) & 7);
                 prescaler = 2;
             }
 
             
             
 
-            int RB4 = (cpu.Read(6) >> 4) & 1;
+            int RB4 = (memory.readByte(6) >> 4) & 1;
 
 
-            if (((cpu.Read(0x81) >> 5) & 1) == 0)
+            if (((memory.readByte(0x81) >> 5) & 1) == 0)
             {
                 //T0CS = 0
                 partTimer++;
@@ -254,11 +269,11 @@ namespace PicSimulatorGUI
             {
                 //T0CS = 1
                 //check if interrupt at rising flank is true
-                if (RB4 > oldRB4 && ((cpu.Read(0x81) >> 6) & 1) == 1)
+                if (RB4 > oldRB4 && ((memory.readByte(0x81) >> 6) & 1) == 1)
                 {
                     partTimer++;
                 }
-                if (RB4 < oldRB4 && ((cpu.Read(0x81) >> 6) & 1) == 0)
+                if (RB4 < oldRB4 && ((memory.readByte(0x81) >> 6) & 1) == 0)
                 {
                     partTimer++;
 
@@ -274,7 +289,7 @@ namespace PicSimulatorGUI
             }
             if (timer > 0xFF)
             {
-                cpu.Bsf(2, 0xB);
+                memory.writeBit(0xB, 2, 0);
                 timer = 0;
                 partTimer = 0;
             }
@@ -286,16 +301,16 @@ namespace PicSimulatorGUI
         public bool interruptCheck()
         {
             //GIE bit set
-            if ( ((cpu.Read(0xB) >> 7) & 1) == 1)
+            if ( ((memory.readByte(0xB) >> 7) & 1) == 1)
             {
                 //timer0 interrupt
-                if ((((cpu.Read(0xB) >> 2) & 1) == 1) && (((cpu.Read(0xB) >> 5) & 1) == 1))
+                if ((((memory.readByte(0xB) >> 2) & 1) == 1) && (((memory.readByte(0xB) >> 5) & 1) == 1))
                 {
                     return true;
                 }
                 //interrupt für INT(RB0)
-                var intcon = cpu.Read(0xB);
-                if ((((cpu.Read(0xB) >> 1) & 1) == 1) && (((cpu.Read(0xB) >> 4) & 1) == 1))
+                var intcon = memory.readByte(0xB);
+                if ((((memory.readByte(0xB) >> 1) & 1) == 1) && (((memory.readByte(0xB) >> 4) & 1) == 1))
                 {
                      return true;
                 }
@@ -311,29 +326,29 @@ namespace PicSimulatorGUI
 
         public void flankCheck()
         {
-            RB0 = cpu.Read(6) & 1;
+            RB0 = memory.readByte(6) & 1;
 
-            if((cpu.Read(6) & 1 & 1) == 1)
+            if((memory.readByte(6) & 1 & 1) == 1)
             {
-                cpu.Write(1, 0x30);
+                memory.writeByte(0x30, 1);
             }
             
-            if ((cpu.Read(6) & 1 & 1) == 0)
+            if ((memory.readByte(6) & 1 & 1) == 0)
             {
-                cpu.Write(2, 0x30);
+                memory.writeByte(0x30, 2);
             }
 
             //check if interrupt at rising flank is true
-            if (RB0 > oldRB0 && ((cpu.Read(0x81) >> 6) & 1) == 1)
+            if (RB0 > oldRB0 && ((memory.readByte(0x81) >> 6) & 1) == 1)
             {
-                cpu.Bsf(1, 0xB);
+                memory.writeBit(0xB, 1, 1);
 
             }
-            var z = cpu.Read(0x81);
+            var z = memory.readByte(0x81);
             var y = z >> 6;
-            if (RB0 < oldRB0 && ((cpu.Read(0x81) >> 6) & 1) == 0)
+            if (RB0 < oldRB0 && ((memory.readByte(0x81) >> 6) & 1) == 0)
             {
-                cpu.Bsf(1, 0xB);
+                memory.writeBit(0xB, 1, 1);
             }
 
             
