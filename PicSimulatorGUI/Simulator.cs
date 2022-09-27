@@ -39,7 +39,6 @@ namespace PicSimulatorGUI
         
 
         public Decode decode;
-        //public Cpu cpu;
 
         public Memory memory;
 

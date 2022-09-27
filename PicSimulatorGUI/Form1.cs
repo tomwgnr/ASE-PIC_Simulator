@@ -32,6 +32,7 @@ namespace PicSimulatorGUI
         {
             InitializeComponent();
             sim = new Simulator();
+            memory = sim.memory;
 
         }
 
