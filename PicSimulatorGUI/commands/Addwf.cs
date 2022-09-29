@@ -4,14 +4,17 @@ namespace PicSimulatorGUI.commands
     class Addwf : Command
     {
 
-        Memory memory;
 
-        public Addwf( ref Memory mem)
+
+        public Addwf ()
         {
-            memory = mem;
         }
-        public void execute(int destinationBit, int registerAddress)
+        public override void execute(int opCode)
         {
+
+            int registerAddress = opCode & 0x7F;
+            int destinationBit = (opCode & 0x80) / 0x80;
+
             digitCarryCheck(registerAddress);
 
             int value = memory.readByte(registerAddress) + memory.W;
@@ -24,6 +27,16 @@ namespace PicSimulatorGUI.commands
 
             writeToDestination(destinationBit, registerAddress, value);
         
+        }
+
+        public override bool isOpCode(int opCode){
+
+            if ((opCode & 0xF00) == 0x700)
+            {
+                return true;
+            }
+
+            return false;
         }
 
     }

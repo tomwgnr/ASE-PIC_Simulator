@@ -2,7 +2,7 @@
 
 namespace PicSimulatorGUI
 {
-    class Memory
+    public class Memory
     {
 
         Simulator simulator;

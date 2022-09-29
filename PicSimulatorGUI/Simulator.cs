@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace PicSimulatorGUI
 {
-    class Simulator
+    public class Simulator
     {
         //Datatable for the registers as display
         public DataTable spezialRegister;
@@ -38,7 +38,7 @@ namespace PicSimulatorGUI
 
         
 
-        public Decode decode;
+        public Decoder decoder;
 
         public Memory memory;
 
@@ -54,7 +54,7 @@ namespace PicSimulatorGUI
         {
             memory = new Memory(this);
             //cpu = new Cpu(this);
-            decode = new Decode(memory);
+            decoder = new Decoder(memory);
             fillNewTable();
             fillextratables();
         }
@@ -162,7 +162,7 @@ namespace PicSimulatorGUI
 
             
 
-            decode.analyse(eprom[Pc]);
+            decoder.analyse(eprom[Pc]);
 
             flankCheck();
 

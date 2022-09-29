@@ -4,12 +4,28 @@ namespace PicSimulatorGUI
     public abstract class Command
     {
 
-        Memory memory;
+        public Memory memory;
+        
 
-        public Command()
-        {
+
+
+        public virtual void execute(int opcode){
+            
             
         }
+
+
+        public virtual bool isOpCode(int opCode){
+
+            return false;
+        }
+
+        public void setMemory(ref Memory memory)
+        {
+            this.memory = memory;
+        }
+
+        
 
         public void carryCheck(int value)
         {
@@ -26,7 +42,8 @@ namespace PicSimulatorGUI
 
         public void digitCarryCheck(int value)
         {
-            if ((memory.readByte(value) & 0xF) + (memory.W & 0xF) > 0xF)
+            
+            if (((memory.readByte(value) & 0xF) + (memory.W & 0xF)) > 0xF)
             {
                 memory.writeBit(3, 1, 1);
             }
@@ -76,6 +93,8 @@ namespace PicSimulatorGUI
                 memory.writeByte(registerAddress, value);
             }
         }
+
+        
 
 
 

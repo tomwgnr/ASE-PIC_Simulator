@@ -4,16 +4,19 @@ namespace PicSimulatorGUI.commands
     class Subwf : Command
     {
 
-        Memory memory;
 
-        public Subwf( ref Memory mem)
+
+        public Subwf ()
         {
-            memory = mem;
         }
 
         
-        public void execute(int destinationBit, int registerAddress)
+        public override void execute(int opCode)
         {
+
+            int registerAddress = opCode & 0x7F;
+            int destinationBit = (opCode & 0x80) / 0x80;
+
             digitCarryCheck(registerAddress);
 
             int value = memory.readByte(registerAddress) - memory.W;
@@ -28,6 +31,16 @@ namespace PicSimulatorGUI.commands
 
             writeToDestination(destinationBit, registerAddress, value);
         
+        }
+
+        public override bool isOpCode(int opCode){
+
+            if ((opCode & 0x3F00) == 0x200)
+            {
+                return true;
+            }
+
+            return false;
         }
 
     }

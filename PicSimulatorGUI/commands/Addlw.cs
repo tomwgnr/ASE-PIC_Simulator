@@ -5,14 +5,18 @@ namespace PicSimulatorGUI.commands
     class Addlw : Command
     {
 
-        Memory memory;
 
-        public Addlw(ref Memory mem)
+
+        public Addlw ()
         {
-            memory = mem;
+            
         }
-        public void execute(int literal)
+        public override void execute(int opCode)
         {
+
+            int literal = opCode & 0xFF;
+
+
             digitCarryCheck(literal);
 
             memory.W = memory.W + literal;
@@ -25,6 +29,15 @@ namespace PicSimulatorGUI.commands
             zeroFlagCheck(memory.W);
         }
 
+        public override bool isOpCode(int opCode){
+
+            if ((opCode & 0x3E00) == 0x3E00)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
     }
 }
