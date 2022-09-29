@@ -104,14 +104,34 @@
  
     \section{Refactoring}\label{sec:refactoring}
 
+    In diesem Abschnitt wird eine Auswahl der identifizierten Code Smells und eingesetzten Refactorings vorgestellt. Hierbei handelt es sich natürch nicht um alle Beispiele welche in diesem Projekt vorkommen und es sind noch einige, vor allem Code Smells, im Code vorhanden. 
+
     \subsection{Code Smells}
 
     \subsubsection{Switch Statement}
 
     Die urspüngliche "Decode"- Klasse beinhaltet exakt eine Methode mit dem Namen "analyse()", welche einen Operationcode einließt und den entsprechenden Command aufruft. In dieser sind eine Reihe von Code Smells zu erkennen: Unter Anderem Code Comments, was hier auf eine Long Method hindeutet.
-    Kernproblem dieser Methode ist jedoch das sich darin befindende riesige Switch-Statement und damit der dazugehörige code Smell. Dies erschwert es unter anderem, einen neuen Command dem PIC-Simulator hinzuzufügen,
+    Kernproblem dieser Methode ist jedoch das sich darin befindende riesige Switch-Statement und damit der dazugehörige Code Smell. Dies erschwert es unter anderem, einen neuen Command dem PIC-Simulator hinzuzufügen,
     da dieser dem Switch-Statement hinzugefügt werden muss. Dieser Vorgang kann fehleranfällig sein und außerdem wird dadurch das Open-Closed-Principle der SOLID Principles(\autoref{subsec:solid}) verletzt. 
     Dieser Code Smell wurde durch den Einsatz einer Zuständigkeitskette als Entwurfsmuster behoben, welches in \autoref{sec:entwurfsmuster} erläutert wird.
+
+    \subsubsection{Long Method}
+
+    Eine Weitere Methode welche deutlich zu groß ist und definitiv unter den Code Smell Long Method fällt ist die ehemalige "writeByte()" Methode der "Memory"- Klasse. Diese ist schnell zu erkennen, da auch hier einige Code Comments zu finden sind und auch einfach an der unnötig hohen Zeilenanzahl.
+    Eine zu lange Methode führt zu einer Reihe möglicher Probleme. Dazu gehören erschwerte Lesbarkeit und Wartung sowie erhöhtes Fehlerrisiko und Risiko auf unnötige Wiederholung von Code. Damit werden unter anderem die Programming Principles DRY und Single Responsibility verletzt. 
+    Behoben wird der Code Smell durch ein Extract Method refactoring, welches unten beschrieben wird.
+    
+    \subsubsection{Duplicated Code}
+
+    Die einzelnen Commands beinhalten zu einem größen Teil gleiche oder ähnliche Funktionen, welche in jedem einzelnen Command neu implementiert wurden. Dadurch war ein beträchtlicher Teil des Codes mehrfach vorhanden, was zur Folge hatte,
+    dass eine Änderung immer an allen Commands durchgeführt werden musste. Dies wurde in dem Schritt gelöst, in dem auch die "Cpu"- Klasse aufgelöst wurde und jeder Command in einer eingenen Klasse definiert wurde. 
+    Dabei wurde eine abstrakte Oberklasse "Command" eingeführt, in welcher die sich widerholenden Funktionen definiert sind.
+
+    \subsection{Refactoring}
+
+    \subsubsection{Extract Method}
+
+    \colorbox[mygreen]{writeByte!}
 
 
     \section{Unit Tests}
