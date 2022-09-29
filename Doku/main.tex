@@ -104,6 +104,16 @@
  
     \section{Refactoring}\label{sec:refactoring}
 
+    \subsection{Code Smells}
+
+    \subsubsection{Switch Statement}
+
+    Die urspüngliche "Decode"- Klasse beinhaltet exakt eine Methode mit dem Namen "analyse()", welche einen Operationcode einließt und den entsprechenden Command aufruft. In dieser sind eine Reihe von Code Smells zu erkennen: Unter Anderem Code Comments, was hier auf eine Long Method hindeutet.
+    Kernproblem dieser Methode ist jedoch das sich darin befindende riesige Switch-Statement und damit der dazugehörige code Smell. Dies erschwert es unter anderem, einen neuen Command dem PIC-Simulator hinzuzufügen,
+    da dieser dem Switch-Statement hinzugefügt werden muss. Dieser Vorgang kann fehleranfällig sein und außerdem wird dadurch das Open-Closed-Principle der SOLID Principles(\autoref{subsec:solid}) verletzt. 
+    Dieser Code Smell wurde durch den Einsatz einer Zuständigkeitskette als Entwurfsmuster behoben, welches in \autoref{sec:entwurfsmuster} erläutert wird.
+
+
     \section{Unit Tests}
 
     \subsection{Einsatz von Mocks}
@@ -122,7 +132,7 @@
 
     \section{Programming Principles}
 
-    \subsection{SOLID}
+    \subsection{SOLID}\label{subsec:solid}
     
     \subsubsection{Single responsibility principle}
 
@@ -141,5 +151,7 @@
     \subsubsection{Low Coupling}
     
     \subsection{DRY -- Don't Repeat Yourself}
+
+    \section{Entwurfsmuster}\label{sec:entwurfsmuster}
 
 \end{document}
