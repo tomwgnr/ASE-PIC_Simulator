@@ -4,14 +4,14 @@ namespace PicSimulatorGUI.commands
     class Decf : Command
     {
 
-        Memory memory;
 
-        public Decf( ref Memory mem)
+
+        public Decf ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int registerAddress = opCode & 0x7F;
             int destinationBit = (opCode & 0x80) / 0x80;
 

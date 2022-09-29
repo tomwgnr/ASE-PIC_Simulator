@@ -5,14 +5,15 @@ namespace PicSimulatorGUI.commands
     class Addlw : Command
     {
 
-        Memory memory;
 
-        public Addlw(ref Memory mem)
+
+        public Addlw ()
         {
-            memory = mem;
+            
         }
         public override void execute(int opCode)
         {
+
             int literal = opCode & 0xFF;
 
 

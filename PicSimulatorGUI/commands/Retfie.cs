@@ -4,14 +4,14 @@ namespace PicSimulatorGUI.commands
     class Retfie : Command
     {
 
-        Memory memory;
 
-        public Retfie( ref Memory mem)
+
+        public Retfie ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             memory.writeBit(0xB, 7, 1);
             memory.setProgramCounter(memory.returnAddr[memory.stackPointer]);
 

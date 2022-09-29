@@ -4,14 +4,14 @@ namespace PicSimulatorGUI.commands
     class Iorlw : Command
     {
 
-        Memory memory;
 
-        public Iorlw( ref Memory mem)
+
+        public Iorlw ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int literal = opCode & 0xFF;
             memory.W |= literal;
 

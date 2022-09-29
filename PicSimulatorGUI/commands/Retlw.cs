@@ -4,14 +4,13 @@ namespace PicSimulatorGUI.commands
     class Retlw : Command
     {
 
-        Memory memory;
 
-        public Retlw( ref Memory mem)
+        public Retlw ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int literal = opCode & 0xFF;
             
             memory.W = literal;

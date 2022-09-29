@@ -4,14 +4,14 @@ namespace PicSimulatorGUI.commands
     class Goto : Command
     {
 
-        Memory memory;
 
-        public Goto( ref Memory mem)
+
+        public Goto ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int address = opCode & 0x7FF;
             
             int pclathBits = (memory.readByte(0xA) & 0x18) << 8;

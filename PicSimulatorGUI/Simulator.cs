@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace PicSimulatorGUI
 {
-    class Simulator
+    public class Simulator
     {
         //Datatable for the registers as display
         public DataTable spezialRegister;

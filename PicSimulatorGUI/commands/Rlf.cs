@@ -5,11 +5,9 @@ namespace PicSimulatorGUI.commands
     {
 
 
-        Memory memory;
 
-        public Rlf( ref Memory mem)
+        public Rlf ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {

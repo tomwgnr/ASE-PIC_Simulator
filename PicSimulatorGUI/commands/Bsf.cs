@@ -4,14 +4,13 @@ namespace PicSimulatorGUI.commands
     class Bsf : Command
     {
 
-        Memory memory;
 
-        public Bsf( ref Memory mem)
+        public Bsf ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int registerAddress = opCode & 0x7F;
             int bitAddress = (opCode & 0x380) / 0x80;
             

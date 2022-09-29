@@ -4,14 +4,14 @@ namespace PicSimulatorGUI.commands
     class Clrw : Command
     {
 
-        Memory memory;
 
-        public Clrw( ref Memory mem)
+
+        public Clrw ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             memory.W = 0;
             memory.writeBit(3, 2, 1);
         

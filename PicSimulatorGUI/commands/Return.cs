@@ -4,14 +4,14 @@ namespace PicSimulatorGUI.commands
     class Return : Command
     {
 
-        Memory memory;
 
-        public Return( ref Memory mem)
+
+        public Return ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             memory.setProgramCounter(memory.returnAddr[memory.stackPointer]);
 
              if (memory.stackPointer == 0)

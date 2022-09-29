@@ -4,14 +4,13 @@ namespace PicSimulatorGUI.commands
     class Andlw : Command
     {
 
-        Memory memory;
 
-        public Andlw( ref Memory mem)
+        public Andlw ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int literal = opCode & 0xFF;
             memory.W &= literal;
 

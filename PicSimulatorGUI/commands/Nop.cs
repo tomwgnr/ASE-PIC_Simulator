@@ -8,8 +8,9 @@ namespace PicSimulatorGUI.commands
         public Nop()
         {
         }
-        public override void execute(int opcode)
+        public override void execute(int opCode)
         {
+            
         
         }
 

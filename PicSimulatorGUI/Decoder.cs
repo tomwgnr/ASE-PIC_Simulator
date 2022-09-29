@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PicSimulatorGUI
 {
-    class Decoder
+    public class Decoder
     {
         public Memory memory;
 
@@ -17,38 +17,38 @@ namespace PicSimulatorGUI
             memory = mem;
 
             CommandList = new List<Command>();
-            CommandList.Add(new Addlw(ref memory));
-            CommandList.Add(new Andlw(ref memory));
-            CommandList.Add(new Andwf(ref memory));
-            CommandList.Add(new Addwf(ref memory));
-            CommandList.Add(new Bcf(ref memory));
-            CommandList.Add(new Bsf(ref memory));
-            CommandList.Add(new Btfsc(ref memory));
-            CommandList.Add(new Btfss(ref memory));
-            CommandList.Add(new Call(ref memory));
-            CommandList.Add(new Clrf(ref memory));
-            CommandList.Add(new Clrw(ref memory));
-            CommandList.Add(new Comf(ref memory));
-            CommandList.Add(new Decf(ref memory));
-            CommandList.Add(new Decfsz(ref memory));
-            CommandList.Add(new Goto(ref memory));
-            CommandList.Add(new Incf(ref memory));
-            CommandList.Add(new Incfsz(ref memory));
-            CommandList.Add(new Iorlw(ref memory));
-            CommandList.Add(new Iorwf(ref memory));
-            CommandList.Add(new Movf(ref memory));
-            CommandList.Add(new Movlw(ref memory));
-            CommandList.Add(new Movwf(ref memory));
-            CommandList.Add(new Retlw(ref memory));
-            CommandList.Add(new Return(ref memory));
-            CommandList.Add(new Retfie(ref memory));
-            CommandList.Add(new Rlf(ref memory));
-            CommandList.Add(new Rrf(ref memory));
-            CommandList.Add(new Sublw(ref memory));
-            CommandList.Add(new Subwf(ref memory));
-            CommandList.Add(new Swapf(ref memory));
-            CommandList.Add(new Xorlw(ref memory));
-            CommandList.Add(new Xorwf(ref memory));
+            CommandList.Add(new Addlw());
+            CommandList.Add(new Andlw());
+            CommandList.Add(new Andwf());
+            CommandList.Add(new Addwf());
+            CommandList.Add(new Bcf());
+            CommandList.Add(new Bsf());
+            CommandList.Add(new Btfsc());
+            CommandList.Add(new Btfss());
+            CommandList.Add(new Call());
+            CommandList.Add(new Clrf());
+            CommandList.Add(new Clrw());
+            CommandList.Add(new Comf());
+            CommandList.Add(new Decf());
+            CommandList.Add(new Decfsz());
+            CommandList.Add(new Goto());
+            CommandList.Add(new Incf());
+            CommandList.Add(new Incfsz());
+            CommandList.Add(new Iorlw());
+            CommandList.Add(new Iorwf());
+            CommandList.Add(new Movf());
+            CommandList.Add(new Movlw());
+            CommandList.Add(new Movwf());
+            CommandList.Add(new Retlw());
+            CommandList.Add(new Return());
+            CommandList.Add(new Retfie());
+            CommandList.Add(new Rlf());
+            CommandList.Add(new Rrf());
+            CommandList.Add(new Sublw());
+            CommandList.Add(new Subwf());
+            CommandList.Add(new Swapf());
+            CommandList.Add(new Xorlw());
+            CommandList.Add(new Xorwf());
 
         }
 
@@ -59,10 +59,12 @@ namespace PicSimulatorGUI
             {
                 if (command.isOpCode(opCode))
                 {
+                    command.setMemory(ref memory);
                     command.execute(opCode);
                 }
             } 
             
         }
+        
     }
 }

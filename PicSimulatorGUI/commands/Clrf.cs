@@ -4,14 +4,14 @@ namespace PicSimulatorGUI.commands
     class Clrf : Command
     {
 
-        Memory memory;
 
-        public Clrf( ref Memory mem)
+
+        public Clrf ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int registerAddress = opCode & 0x7F;
             
             memory.writeByte(registerAddress, 0);

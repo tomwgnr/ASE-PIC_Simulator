@@ -10,6 +10,7 @@ namespace PicSimulatorGUI.commands
         }
         public override void execute(int opCode)
         {
+           
         
         }
 

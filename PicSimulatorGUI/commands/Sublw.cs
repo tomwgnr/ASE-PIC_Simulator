@@ -5,14 +5,14 @@ namespace PicSimulatorGUI.commands
     class Sublw : Command
     {
 
-        Memory memory;
 
-        public Sublw(ref Memory mem)
+
+        public Sublw ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int literal = opCode & 0xFF;
 
             digitCarryCheck(literal);

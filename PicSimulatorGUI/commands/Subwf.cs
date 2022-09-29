@@ -4,16 +4,16 @@ namespace PicSimulatorGUI.commands
     class Subwf : Command
     {
 
-        Memory memory;
 
-        public Subwf( ref Memory mem)
+
+        public Subwf ()
         {
-            memory = mem;
         }
 
         
         public override void execute(int opCode)
         {
+
             int registerAddress = opCode & 0x7F;
             int destinationBit = (opCode & 0x80) / 0x80;
 

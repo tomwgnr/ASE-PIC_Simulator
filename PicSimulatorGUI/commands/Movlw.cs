@@ -4,14 +4,14 @@ namespace PicSimulatorGUI.commands
     class Movlw : Command
     {
 
-        Memory memory;
 
-        public Movlw( ref Memory mem)
+
+        public Movlw ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int literal = opCode & 0xFF;
             
             memory.W = literal;

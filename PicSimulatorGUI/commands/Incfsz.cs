@@ -4,14 +4,14 @@ namespace PicSimulatorGUI.commands
     class Incfsz : Command
     {
 
-        Memory memory;
 
-        public Incfsz( ref Memory mem)
+
+        public Incfsz ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int registerAddress = opCode & 0x7F;
             int destinationBit = (opCode & 0x80) / 0x80;
 

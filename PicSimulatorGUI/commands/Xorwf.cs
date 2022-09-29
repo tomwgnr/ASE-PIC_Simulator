@@ -5,14 +5,15 @@ namespace PicSimulatorGUI.commands
     {
 
 
-        Memory memory;
+        
 
-        public Xorwf( ref Memory mem)
+        public Xorwf ()
         {
-            memory = mem;
+            
         }
         public override void execute(int opCode)
         {
+            
             int registerAddress = opCode & 0x7F;
             int destinationBit = (opCode & 0x80) / 0x80;
 

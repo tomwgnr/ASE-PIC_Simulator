@@ -4,14 +4,13 @@ namespace PicSimulatorGUI.commands
     class Movf : Command
     {
 
-        Memory memory;
 
-        public Movf( ref Memory mem)
+        public Movf ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int registerAddress = opCode & 0x7F;
             int destinationBit = (opCode & 0x80) / 0x80;
 

@@ -4,14 +4,14 @@ namespace PicSimulatorGUI.commands
     class Call : Command
     {
 
-        Memory memory;
 
-        public Call( ref Memory mem)
+
+        public Call ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int address = opCode & 0x7FF;
             
             if (memory.stackPointer == 7) 

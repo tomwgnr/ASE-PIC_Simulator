@@ -5,14 +5,14 @@ namespace PicSimulatorGUI.commands
     {
 
 
-        Memory memory;
 
-        public Movwf( ref Memory mem)
+
+        public Movwf ()
         {
-            memory = mem;
         }
         public override void execute(int opCode)
         {
+
             int registerAddress = opCode & 0x7F;
 
             memory.writeByte(registerAddress, memory.W);
