@@ -7,32 +7,26 @@ namespace PicSimTest;
 public class SpezRegTest
 {
     public PicSimulatorGUI.Memory memory;
-    public PicSimulatorGUI.commands.Addlw addlw;
-   // public PicSimulatorGUI picsim;
+    public PicSimulatorGUI.registers.SpezialRegister spezReg;
+    public string name = "spezial";
+    // public PicSimulatorGUI picsim;
+    [TestMethod]
+    public void naming_works()
+    {
+        //Arange
+        spezReg = new PicSimulatorGUI.registers.SpezialRegister(name);
+        Assert.AreEqual(name, spezReg.TableName);
+        // Assert.IsFalse(false);
+    }
     [TestMethod]
     public void register_is_Filled()
     {
             //Arange
-            addlw = new PicSimulatorGUI.commands.Addlw();
-            //addlw.memory.W = 0x0000;
-            //Act
-            bool res = addlw.isOpCode(0x4E00);
-            //Assert
-            //Console.WriteLine(res);
-            Assert.IsFalse(res);
+            spezReg = new PicSimulatorGUI.registers.SpezialRegister("spezial");
+            spezReg.fillNew();
+
+            Assert.AreEqual(1,spezReg.Rows.Count);
+           // Assert.IsFalse(false);
     }
-    /*
-    [TestMethod]
-    public void isOpCode_rightCode()
-    {
-        //Arange
-        addlw = new PicSimulatorGUI.commands.Addlw();
-        //addlw.memory.W = 0x0000;
-        //Act
-        bool res = addlw.isOpCode(0x3E00);
-        //Assert
-        //Console.WriteLine(res);
-        Assert.IsTrue(res);
-    }
-    */
+
 }
