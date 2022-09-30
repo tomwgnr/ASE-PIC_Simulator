@@ -7,7 +7,7 @@ namespace PicSimulatorGUI.sim
     {
 
         public Memory memory;
-        public int flankCheck(int RB0,int oldRB0,ref Memory mem)
+        public int flankenCheck(int RB0,int oldRB0,ref Memory mem)
         {
             memory = mem;
             RB0 = memory.readByte(6) & 1;
