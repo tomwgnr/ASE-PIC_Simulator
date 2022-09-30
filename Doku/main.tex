@@ -110,26 +110,33 @@
 
     \subsubsection{Switch Statement}
 
-    Die urspüngliche "Decode"- Klasse beinhaltet exakt eine Methode mit dem Namen "analyse()", welche einen Operationcode einließt und den entsprechenden Command aufruft. In dieser sind eine Reihe von Code Smells zu erkennen: Unter Anderem Code Comments, was hier auf eine Long Method hindeutet.
+    Die urspüngliche 'Decode'- Klasse beinhaltet exakt eine Methode mit dem Namen 'analyse()', welche einen Operationcode einließt und den entsprechenden Command aufruft. In dieser sind eine Reihe von Code Smells zu erkennen: Unter Anderem Code Comments, was hier auf eine Long Method hindeutet.
     Kernproblem dieser Methode ist jedoch das sich darin befindende riesige Switch-Statement und damit der dazugehörige Code Smell. Dies erschwert es unter anderem, einen neuen Command dem PIC-Simulator hinzuzufügen,
     da dieser dem Switch-Statement hinzugefügt werden muss. Dieser Vorgang kann fehleranfällig sein und außerdem wird dadurch das Open-Closed-Principle der SOLID Principles(\autoref{subsec:solid}) verletzt. 
     Dieser Code Smell wurde durch den Einsatz einer Zuständigkeitskette als Entwurfsmuster behoben, welches in \autoref{sec:entwurfsmuster} erläutert wird.
 
     \subsubsection{Long Method}
 
-    Eine Weitere Methode welche deutlich zu groß ist und definitiv unter den Code Smell Long Method fällt ist die ehemalige "writeByte()" Methode der "Memory"- Klasse. Diese ist schnell zu erkennen, da auch hier einige Code Comments zu finden sind und auch einfach an der unnötig hohen Zeilenanzahl.
+    Eine Weitere Methode welche deutlich zu groß ist und definitiv unter den Code Smell Long Method fällt ist die ehemalige 'writeByte()' Methode der 'Memory'- Klasse. Diese ist schnell zu erkennen, da auch hier einige Code Comments zu finden sind und auch einfach an der unnötig hohen Zeilenanzahl.
     Eine zu lange Methode führt zu einer Reihe möglicher Probleme. Dazu gehören erschwerte Lesbarkeit und Wartung sowie erhöhtes Fehlerrisiko und Risiko auf unnötige Wiederholung von Code. Damit werden unter anderem die Programming Principles DRY und Single Responsibility verletzt. 
     Behoben wird der Code Smell durch ein Extract Method refactoring, welches unten beschrieben wird.
     
     \subsubsection{Duplicated Code}
 
     Die einzelnen Commands beinhalten zu einem größen Teil gleiche oder ähnliche Funktionen, welche in jedem einzelnen Command neu implementiert wurden. Dadurch war ein beträchtlicher Teil des Codes mehrfach vorhanden, was zur Folge hatte,
-    dass eine Änderung immer an allen Commands durchgeführt werden musste. Dies wurde in dem Schritt gelöst, in dem auch die "Cpu"- Klasse aufgelöst wurde und jeder Command in einer eingenen Klasse definiert wurde. 
-    Dabei wurde eine abstrakte Oberklasse "Command" eingeführt, in welcher die sich widerholenden Funktionen definiert sind.
+    dass eine Änderung immer an allen Commands durchgeführt werden musste. Dies wurde in dem Schritt gelöst, in dem auch die 'Cpu'- Klasse aufgelöst wurde und jeder Command in einer eingenen Klasse definiert wurde. 
+    Dabei wurde eine abstrakte Oberklasse 'Command' eingeführt, in welcher die sich widerholenden Funktionen definiert sind.
+
+    \subsubsection{Large Class}
+    Für den Code Smell Large Klass gibt es zwei auffällige Beispiele. Bevor der Code Refactored wurde basierte der Großteil der Funktionalität auf zwei Klassen, 'Cpu' und 'Simulator', welche beide aus einigen hundert Zeilen Code bestanden und eine große Anzahl an Methoden beinhalteten.
+    Dieser Aufbau verstößt gegen einige der Programming Principles, aber primär dem Single Responsibility Principle, weches in \autoref{subsubsec:single_responsibility} erläutert wird. Er stört dabei die Les- und Wartbarkeit des Codes sowie die Möglichkeit zur Erweiterung von Funktionalitäten.
+    Aus diesem Grund wurde die 'Cpu'- Klasse komplett aufgelöst und die  Simulator Klasse mit hilfe eines Extract Class Refactorings, welches anschließend erläutert wird, verkleinert.
 
     \subsection{Refactoring}
 
     \subsubsection{Extract Method}
+
+    \subsubsection{Extract Class}
 
 
     \section{Unit Tests}
@@ -152,9 +159,22 @@
 
     \subsection{SOLID}\label{subsec:solid}
     
-    \subsubsection{Single responsibility principle}
+    \subsubsection{Single responsibility principle}\label{subsubsec:single_responsibility}
+    Das Single Responsibility Principle sagt aus, dass eine Klasse nur exakt für eine Funktionalität zuständig ist. Im Umkehrschluss bedeutet dies auch, dass es immer nur einen einzigen Grund geben soll, warum die Klasse geändert werden müsste.
+    Ziel dieses Prinzips ist niedrige Kopplung sowie niedrige Komplexität innerhalb der Klasse. In diesem Projekt wurde dieses Prinzip in einigen Klassen angewandt. ein Beispiel dafür sind die Klassen der einzelnen Register. 
+    Diese verfügen nur über eine einzige Zuständigkeit: das Auffüllen neuer Datentabellen zur dargestellung der einzelnen Register des Simulators.
+    \\
+    Screenshot
+    \\
+
+    Ein Negativbeispiel ist vor allem die 'Forms'-Klasse, welche viele Funktionen durchführt und damit eine hohe anzahl an Zuständigkeiten und Änderungsdimensionen besitzt. Auch die 'Simulator'-Klasse fällt trotz der Refactorings immernoch in diese Kategorie. 
+
+
 
     \subsubsection{Open/Closed principle}
+    Für gute Software ist es wichtig, dass sie offen für Erweiterung aber geschlossen für Veränderung ist. Code so zu gestalten, dass er überhaupt nicht verändert werden muss ist oft nicht möglich, es sollte aber so minimal wie möglich gehalten sein. Ein Beispiel im Code sind dabei die einzelnen Commands.
+    Diese sind alle in einzelnen Klassen definiert, welche von einer abstrakten Oberklasse "Command" erben. Soll ein neuer Command hinzugefügt werden, so kann eine neue Unterklasse davon erstellt werden. Um diese im Projekt zu integrieren, muss dieser lediglich der 'CommandList' in der 'Decoder'- Klasse hinzugefügt werden.
+    Diese minimale Modifikation des Codes wird durch den Einsatz eines Entwurfsmusters in \autoref{sec:entwurfsmuster} ermöglicht. 
 
     \subsubsection{Liskov substitution principle}
 
@@ -173,13 +193,15 @@
     \section{Entwurfsmuster: Zuständigkeitskette}\label{sec:entwurfsmuster}
 
     Wie bereits in den Code Smells in \autoref{sec:refactoring} erwähnt, handelte es sich bei dem Teil des Codes, welcher die Operationcodes des eingelesenen Programmes decodiert um ein überdimensionalen Switch- Statement.
-    Dieser sollte vermieden werden. Außerdem sollte die "Cpu"- Klasse aufgelöst werden und jeder Command als eigene Klasse dargestellt werden. Zur Lösung dieser Probleme wurde die Zuständigkeitskette entdeckt.
+    Dieser sollte vermieden werden. Außerdem sollte die 'Cpu'- Klasse aufgelöst werden und jeder Command als eigene Klasse dargestellt werden. Zur Lösung dieser Probleme wurde die Zuständigkeitskette entdeckt.
     Dabei handelt es sich um ein Entwurfsmuster aus der Reihe der Verhaltensmuster, zu welchen auch der Beobachter gehört. 
     \\
     Eine Zuständigkeitskette dient dazu, verschiedene Anfragen eines Clients zu bearbeiten, welche an das selbe Interface gesendet werden. Dieses Interface wird dabei als Base Handler bezeichnet. Dazu wird die Anfrage an eine Kette von sogenannten konkreten Handlern geleitet.
     Ist eine Handler für die jeweilige Anfrage zuständig, so wird sie von diesem bearbeitet. Wenn nicht, wird sie an den nächsten Handler der Kette weitergegeben. Der Client muss dabei nicht wissen, von welchem Handler die Anfrage bearbeitet wurde und die konkreten Handler kennen lediglich ihren jeweilige Nachfolger.
     \\
-    In diesem Fall ist die Anfrage der Operationcode des aktuellen Befehls im eingelesenen Programm, welcher von der "Simulator"- Klasse in der Rolle als Client gestellt wird. Die konkreten Handler sind die einzelnen Commands, welche in der Methode "isOpCode()" überprüfen, ob sie für den Befehl zuständig sind.
-    Im gegensatz zur Originalimplementierung ist hier allerdings 
+    In diesem Fall ist die Anfrage der Operationcode des aktuellen Befehls im eingelesenen Programm, welcher von der 'Simulator'- Klasse in der Rolle als Client gestellt wird. Die konkreten Handler sind die einzelnen Commands, welche in der Methode 'isOpCode()' überprüfen, ob sie für den Befehl zuständig sind.
+    Im gegensatz zur Originalimplementierung ist hier allerdings die 'Decoder'- Klasse zwischen Client und konreten Handlern, in welcher alle Handler in einer Liste aufgeführt sind, durch welche dann iteriert wird. Anstatt dass jeder konkrete Handler seinen Nachfolger und nur diesen kennt, wird die Kette vollständig in der 'Decoder'- Klasse definiert.
+    Diese Praxis weicht zwar von dem origalen Entwurfsmuster ab, verringert aber die Anzahl der Methoden in der 'Command'-Klasse und gestaltet den Aufbau und damit auch die Erweiterung der Kette übersichtlicher, da neue Commands lediglich der 'CommandList' hinzugefügt werden müssen,
+    anstatt sie einzeln zu instanziieren und sie als nächsten Handler des zuvor letzten zu definieren.
 
 \end{document}
