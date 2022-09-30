@@ -1,7 +1,7 @@
 namespace PicSimulatorGUI.commands
 {
 
-    class Addwf : Command
+    public class Addwf : Command
     {
 
 
