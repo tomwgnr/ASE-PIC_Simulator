@@ -12,7 +12,7 @@ namespace PicSimulatorGUI.commands
         public override void execute(int opCode)
         {
 
-            memory.setProgramCounter(memory.returnAddr[memory.stackPointer]);
+            memory.Pc = memory.returnAddr[memory.stackPointer];
 
              if (memory.stackPointer == 0)
             {

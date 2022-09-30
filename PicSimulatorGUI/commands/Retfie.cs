@@ -13,7 +13,7 @@ namespace PicSimulatorGUI.commands
         {
 
             memory.writeBit(0xB, 7, 1);
-            memory.setProgramCounter(memory.returnAddr[memory.stackPointer]);
+            memory.Pc = memory.returnAddr[memory.stackPointer];
 
              if (memory.stackPointer == 0)
             {

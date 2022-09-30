@@ -20,7 +20,7 @@ namespace PicSimulatorGUI.commands
             value &= 1;
             if (value == 1)
             {
-                memory.setProgramCounter(memory.getProgramCounter() + 1);   
+                memory.Pc ++;  
                 memory.incrementTimer();
             }
         

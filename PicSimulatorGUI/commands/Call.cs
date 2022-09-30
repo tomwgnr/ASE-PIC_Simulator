@@ -21,11 +21,10 @@ namespace PicSimulatorGUI.commands
 
             memory.stackPointer++;
 
-            memory.returnAddr[memory.stackPointer] = memory.getProgramCounter();
+            memory.returnAddr[memory.stackPointer] = memory.Pc;
             int pclathBits = (memory.readByte(0xA) & 0x18) << 8;
 
-            memory.setProgramCounter((address + pclathBits) - 1);
-
+            memory.Pc = (address + pclathBits) - 1;
             memory.incrementTimer();
         
         }

@@ -29,7 +29,7 @@ namespace PicSimulatorGUI
 
 
         public Form1()
-        {
+        { 
             InitializeComponent();
             sim = new Simulator();
             memory = sim.memory;
@@ -39,13 +39,19 @@ namespace PicSimulatorGUI
         //fill all the grids by binding source and set layout
         void fillDataGrid()
         {
-            Eprom.DataSource = sim.table.DefaultView;
-            spezialRegister.DataSource = sim.spezialRegister.DefaultView;
-            PA.DataSource = sim.t_PortA.DefaultView;
-            PB.DataSource = sim.t_PortB.DefaultView;
-            Status.DataSource = sim.t_status.DefaultView;
-            optionReg.DataSource = sim.t_Option.DefaultView;
-            intcon.DataSource = sim.t_intcon.DefaultView;
+            Eprom.DataSource = memory.table.DefaultView;
+            try{
+            spezialRegister.DataSource = memory.spezReg.DefaultView;
+            }
+            catch(NullReferenceException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            PA.DataSource = memory.t_portA.DefaultView;
+            PB.DataSource = memory.t_portB.DefaultView;
+            Status.DataSource = memory.t_status.DefaultView;
+            optionReg.DataSource = memory.t_option.DefaultView;
+            intcon.DataSource = memory.t_intcon.DefaultView;
 
             //initialze PA
             PA.Width = 250;
@@ -219,15 +225,15 @@ namespace PicSimulatorGUI
         //update all the Elements of the GUI while program is running
         public void UpdateWindows()
         {
-            sim.spezialRegister.Rows[0].SetField(0, memory.W.ToString("X") + "h");
-            sim.spezialRegister.Rows[0].SetField(1, sim.table.Rows[0].Field<string>(5));    //FSR
-            sim.spezialRegister.Rows[0].SetField(2, sim.table.Rows[0].Field<string>(3));    //PCL
-            sim.spezialRegister.Rows[0].SetField(3, sim.table.Rows[1].Field<string>(3));    //PCLATH
-            sim.spezialRegister.Rows[0].SetField(4, sim.table.Rows[0].Field<string>(4));
+            memory.spezReg.Rows[0].SetField(0, memory.W.ToString("X") + "h");
+            memory.spezReg.Rows[0].SetField(1, memory.table.Rows[0].Field<string>(5));    //FSR
+            memory.spezReg.Rows[0].SetField(2, memory.table.Rows[0].Field<string>(3));    //PCL
+            memory.spezReg.Rows[0].SetField(3, memory.table.Rows[1].Field<string>(3));    //PCLATH
+            memory.spezReg.Rows[0].SetField(4, memory.table.Rows[0].Field<string>(4));
 
             //Port A
-            var ha1 = sim.table.Rows[0].Field<string>(6);
-            var ha2 = sim.table.Rows[15].Field<string>(6);
+            var ha1 = memory.table.Rows[0].Field<string>(6);
+            var ha2 = memory.table.Rows[15].Field<string>(6);
             var portA = HexStringToBinary(ha1);
             var portAio = HexStringToBinary(ha2);
             for (int i = 1; i <= 8; i++)    //starts at 1 because first field contains name
@@ -243,8 +249,8 @@ namespace PicSimulatorGUI
             }
 
             //Port B
-            var hb1 = sim.table.Rows[0].Field<string>(7);
-            var hb2 = sim.table.Rows[15].Field<string>(7);
+            var hb1 = memory.table.Rows[0].Field<string>(7);
+            var hb2 = memory.table.Rows[15].Field<string>(7);
             var portB = HexStringToBinary(hb1);
             var portBio = HexStringToBinary(hb2);
             for (int i = 1; i <= 8; i++)    //starts at 1 because first field contains name
@@ -261,7 +267,7 @@ namespace PicSimulatorGUI
             }
 
             //Status 
-            var hs = sim.table.Rows[0].Field<string>("3");
+            var hs = memory.table.Rows[0].Field<string>("3");
             var status = HexStringToBinary(hs);
             for (int i = 0; i < 8; i++)
             {
@@ -269,7 +275,7 @@ namespace PicSimulatorGUI
             }
 
             //Option
-            var ho = sim.table.Rows[16].Field<string>("0");
+            var ho = memory.table.Rows[16].Field<string>("0");
             var option = HexStringToBinary(ho);
             for (int i = 0; i < 8; i++)
             {
@@ -277,7 +283,7 @@ namespace PicSimulatorGUI
             }
 
             //intcon
-            var hi = sim.table.Rows[1].Field<string>("3");
+            var hi = memory.table.Rows[1].Field<string>("3");
             var intco = HexStringToBinary(hi);
             for (int i = 0; i < 8; i++)
             {
@@ -287,12 +293,12 @@ namespace PicSimulatorGUI
             Action updateWD = () => lbl_wdtimer.Text = memory.wdTimer.ToString();
             Invoke(updateWD);
 
-            double time = ((1 / quartz) * sim.runtime) * 4;
+            double time = ((1 / quartz) * memory.runtime) * 4;
 
             Action updateTimer = () => lbl_timer.Text = time.ToString();
             Invoke(updateTimer);
 
-            Action updateTMR = () => label_tmr.Text = sim.timer.ToString();
+            Action updateTMR = () => label_tmr.Text = memory.timer.ToString();
             Invoke(updateTMR);
         }
 
@@ -331,7 +337,7 @@ namespace PicSimulatorGUI
         public void run()
         {
             bool bp = false;
-            while (sim.Pc < sim.eprom.Length && threadRunning == true && bp == false)
+            while (memory.Pc < sim.eprom.Length && threadRunning == true && bp == false)
             {
                 if (sim.reset == true)
                 {
@@ -340,9 +346,9 @@ namespace PicSimulatorGUI
                     Invoke(resetall);
                     return;
                 }
-                if (sim.breakpoints[sim.Pc] == 1 && sim.l_breakpoint != sim.Pc)
+                if (sim.breakpoints[memory.Pc] == 1 && sim.l_breakpoint != memory.Pc)
                 {
-                    sim.l_breakpoint = sim.Pc;
+                    sim.l_breakpoint = memory.Pc;
                     bp = true;
                     threadRunning = false;
                 }
@@ -386,7 +392,7 @@ namespace PicSimulatorGUI
             {
                 lastrow.DefaultCellStyle.BackColor = codeView.DefaultCellStyle.BackColor;
             }
-            lastrow = codeView.Rows[sim.eprompositions[sim.Pc]];
+            lastrow = codeView.Rows[sim.eprompositions[memory.Pc]];
             lastrow.DefaultCellStyle.BackColor = Color.LightBlue;
         }
 
@@ -400,11 +406,11 @@ namespace PicSimulatorGUI
                 string s = PA.Rows[x].Cells[y].Value.ToString();
                 if (s == "1")
                 {
-                    sim.t_PortA.Rows[x].SetField(y, "0");
+                    memory.t_portA.Rows[x].SetField(y, "0");
                 }
                 else if (s == "0")
                 {
-                    sim.t_PortA.Rows[x].SetField(y, "1");
+                    memory.t_portA.Rows[x].SetField(y, "1");
                 }
                 string binary = "";
                 for (int i = 1; i <= 8; i++)
@@ -413,7 +419,7 @@ namespace PicSimulatorGUI
 
                 }
                 int intHex = Convert.ToInt32(binary, 2);
-                sim.table.Rows[0].SetField(6, Memory.checktwohex(intHex));
+                memory.table.Rows[0].SetField(6, Memory.checktwohex(intHex));
             }
         }
 
@@ -428,11 +434,11 @@ namespace PicSimulatorGUI
                 string s = PB.Rows[x].Cells[y].Value.ToString();
                 if (s == "1")
                 {
-                    sim.t_PortB.Rows[x].SetField(y, "0");
+                    memory.t_portB.Rows[x].SetField(y, "0");
                 }
                 else if (s == "0")
                 {
-                    sim.t_PortB.Rows[x].SetField(y, "1");
+                    memory.t_portB.Rows[x].SetField(y, "1");
                 }
                 string binary = "";
                 for (int i = 1; i <= 8; i++)
@@ -441,7 +447,7 @@ namespace PicSimulatorGUI
 
                 }
                 int intHex = Convert.ToInt32(binary, 2);
-                sim.table.Rows[0].SetField(7, Memory.checktwohex(intHex));
+                memory.table.Rows[0].SetField(7, Memory.checktwohex(intHex));
             }
         }
 
@@ -458,7 +464,7 @@ namespace PicSimulatorGUI
                 try
                 {
                     var x = Int32.Parse(newvalue, System.Globalization.NumberStyles.HexNumber);
-                    sim.table.Rows[e.RowIndex].SetField(e.ColumnIndex, Memory.checktwohex(x));
+                    memory.table.Rows[e.RowIndex].SetField(e.ColumnIndex, Memory.checktwohex(x));
                 }
                 catch (FormatException)
                 {

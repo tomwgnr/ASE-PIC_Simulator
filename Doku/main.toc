@@ -2,9 +2,12 @@
 \contentsline {chapter}{\numberline {1}Projektbeschreibung}{2}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Einrichtung}{2}{section.1.1}%
 \contentsline {chapter}{\numberline {2}Entwicklung}{3}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Clean Architecture}{4}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Refactoring}{4}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Unit Tests}{4}{section.2.3}%
+\contentsline {section}{\numberline {2.1}Clean Architecture}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Refactoring}{3}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Switch-Case in der CPU}{3}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Register}{3}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Interupt- und FlankenCheck}{3}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Unit-Tests}{4}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Einsatz von Mocks}{4}{subsection.2.3.1}%
 \contentsline {subsection}{\numberline {2.3.2}ATRIP-Regeln}{4}{subsection.2.3.2}%
 \contentsline {subsubsection}{Automatic}{4}{section*.4}%
@@ -12,14 +15,14 @@
 \contentsline {subsubsection}{Repeatable}{4}{section*.6}%
 \contentsline {subsubsection}{Independent}{4}{section*.7}%
 \contentsline {subsubsection}{Professional}{4}{section*.8}%
-\contentsline {section}{\numberline {2.4}Programming Principles}{4}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}SOLID}{4}{subsection.2.4.1}%
-\contentsline {subsubsection}{Single responsibility principle}{4}{section*.9}%
-\contentsline {subsubsection}{Open/Closed principle}{4}{section*.10}%
-\contentsline {subsubsection}{Liskov substitution principle}{4}{section*.11}%
-\contentsline {subsubsection}{Interface segregation principle}{4}{section*.12}%
-\contentsline {subsubsection}{Dependency inversion principle}{4}{section*.13}%
-\contentsline {subsection}{\numberline {2.4.2}GRASP}{4}{subsection.2.4.2}%
-\contentsline {subsubsection}{High Cohesion}{4}{section*.14}%
-\contentsline {subsubsection}{Low Coupling}{4}{section*.15}%
-\contentsline {subsection}{\numberline {2.4.3}DRY -- Don't Repeat Yourself}{4}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.4}Programming Principles}{5}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}SOLID}{5}{subsection.2.4.1}%
+\contentsline {subsubsection}{Single responsibility principle}{5}{section*.9}%
+\contentsline {subsubsection}{Open/Closed principle}{5}{section*.10}%
+\contentsline {subsubsection}{Liskov substitution principle}{5}{section*.11}%
+\contentsline {subsubsection}{Interface segregation principle}{5}{section*.12}%
+\contentsline {subsubsection}{Dependency inversion principle}{5}{section*.13}%
+\contentsline {subsection}{\numberline {2.4.2}GRASP}{5}{subsection.2.4.2}%
+\contentsline {subsubsection}{High Cohesion}{5}{section*.14}%
+\contentsline {subsubsection}{Low Coupling}{5}{section*.15}%
+\contentsline {subsection}{\numberline {2.4.3}DRY -- Don't Repeat Yourself}{5}{subsection.2.4.3}%

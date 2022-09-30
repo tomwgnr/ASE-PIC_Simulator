@@ -18,7 +18,7 @@ namespace PicSimulatorGUI.commands
             int value = memory.readByte(registerAddress) - 1;
             if (value == 0)
             {
-                memory.setProgramCounter(memory.getProgramCounter() + 1);
+                memory.Pc ++;
                 memory.incrementTimer();
             }
 
