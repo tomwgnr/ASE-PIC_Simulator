@@ -1,7 +1,7 @@
 namespace PicSimulatorGUI.commands
 {
 
-    class Bsf : Command
+    public class Bsf : Command
     {
 
 

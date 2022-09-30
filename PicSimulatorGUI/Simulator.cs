@@ -61,7 +61,7 @@ namespace PicSimulatorGUI
             decoder.analyse(eprom[memory.Pc]);
 
             sim.FlakenCheck flankCheck = new sim.FlakenCheck();
-            RB0 = flankCheck.flankCheck(RB0,oldRB0,ref memory);
+            RB0 = flankCheck.flankenCheck(RB0,oldRB0,ref memory);
             oldRB0 = RB0;
 
             sim.InterruptCheck interruptCheck = new sim.InterruptCheck();
