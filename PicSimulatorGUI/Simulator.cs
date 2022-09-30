@@ -6,20 +6,21 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+//using PicSimulatorGUI.registers;
+//using PicSimulatorGUI.registers;
 namespace PicSimulatorGUI
 {
     public class Simulator
     {
         //Datatable for the registers as display
-        public DataTable spezialRegister;
-        public DataTable table;
-        public DataTable t_PortA;
-        public DataTable t_PortB;
-        public DataTable t_status;
-        public DataTable t_Option;
-        public DataTable t_intcon;
-
+        public registers.SpezialRegister spezReg;
+        public registers.Table table;
+        public registers.T_PortA t_portA;
+        public registers.T_PortB t_portB;
+        public registers.T_Status t_status;
+        public registers.T_Option t_option;
+        public registers.T_Intcon t_intcon; 
+        
         public string[] input;
 
         public bool reset = false;
@@ -55,102 +56,34 @@ namespace PicSimulatorGUI
             memory = new Memory(this);
             //cpu = new Cpu(this);
             decoder = new Decoder(memory);
-            fillNewTable();
-            fillextratables();
+            fillTables();
+
+
         }
 
-        public void fillNewTable()
+        public void fillTables()
         {
-            table = new DataTable("EPROM");
-            table.Columns.Add("Adr", typeof(String));
-            table.Columns.Add("0", typeof(String));
-            table.Columns.Add("1", typeof(String));
-            table.Columns.Add("2", typeof(String));
-            table.Columns.Add("3", typeof(String));
-            table.Columns.Add("4", typeof(String));
-            table.Columns.Add("5", typeof(String));
-            table.Columns.Add("6", typeof(String));
-            table.Columns.Add("7", typeof(String));
+            spezReg = new registers.SpezialRegister("test");
+            spezReg.fillNew();
 
-            table.PrimaryKey = new DataColumn[] { table.Columns["Adr"] };
+            t_intcon = new registers.T_Intcon("");
+            t_intcon.fillNew();
 
-            for (int i = 0; i < 0xFF; i += 8)
-            {
-                string j = i.ToString("X");
-                table.Rows.Add(j, "00", "00", "00", "00", "00", "00", "00", "00");
-            }
-        }
+            t_portB = new registers.T_PortB("");
+            t_portB.fillNew();
 
-        public void fillextratables()
-        {
-            spezialRegister = new DataTable("spezial");
-            spezialRegister.Columns.Add("W", typeof(String));
-            spezialRegister.Columns.Add("FSR", typeof(String));
-            spezialRegister.Columns.Add("PCL", typeof(String));
-            spezialRegister.Columns.Add("PCLATH", typeof(String));
-            spezialRegister.Columns.Add("Status", typeof(String));
+            t_portA = new registers.T_PortA("");
+            t_portA.fillNew();
 
-            spezialRegister.Rows.Add(0, 0, 0, 0, 0);
+            t_option = new registers.T_Option("");
+            t_option.fillNew();
 
-            t_PortA = new DataTable("porta");
-            t_PortA.Columns.Add("RA");
-            t_PortA.Columns.Add("7");
-            t_PortA.Columns.Add("6");
-            t_PortA.Columns.Add("5");
-            t_PortA.Columns.Add("4");
-            t_PortA.Columns.Add("3");
-            t_PortA.Columns.Add("2");
-            t_PortA.Columns.Add("1");
-            t_PortA.Columns.Add("0");
-            t_PortA.Rows.Add("Tris", "o", "o", "o", "o", "o", "o", "o", "o");
-            t_PortA.Rows.Add("Pin", 0, 0, 0, 0, 0, 0, 0, 0);
+            t_status = new registers.T_Status("");
+            t_status.fillNew();
 
+            table = new registers.Table("");
+            table.fillNew();
 
-            t_PortB = new DataTable("portb");
-            t_PortB.Columns.Add("RB");
-            t_PortB.Columns.Add("7");
-            t_PortB.Columns.Add("6");
-            t_PortB.Columns.Add("5");
-            t_PortB.Columns.Add("4");
-            t_PortB.Columns.Add("3");
-            t_PortB.Columns.Add("2");
-            t_PortB.Columns.Add("1");
-            t_PortB.Columns.Add("0");
-            t_PortB.Rows.Add("Tris", "o", "o", "o", "o", "o", "o", "o", "o");
-            t_PortB.Rows.Add("Pin", 0, 0, 0, 0, 0, 0, 0, 0);
-
-            t_status = new DataTable("status");
-            t_status.Columns.Add("IRP");
-            t_status.Columns.Add("RP1");
-            t_status.Columns.Add("RP0");
-            t_status.Columns.Add("TO");
-            t_status.Columns.Add("PD");
-            t_status.Columns.Add("Z");
-            t_status.Columns.Add("DC");
-            t_status.Columns.Add("C");
-            t_status.Rows.Add(0, 0, 0, 0, 0, 0, 0, 0);
-
-            t_Option = new DataTable("option");
-            t_Option.Columns.Add("RBP");
-            t_Option.Columns.Add("IE");
-            t_Option.Columns.Add("TOCS");
-            t_Option.Columns.Add("TOSE");
-            t_Option.Columns.Add("PSA");
-            t_Option.Columns.Add("PS2");
-            t_Option.Columns.Add("PS1");
-            t_Option.Columns.Add("PS0");
-            t_Option.Rows.Add(0, 0, 0, 0, 0, 0, 0, 0);
-
-            t_intcon = new DataTable("intcon");
-            t_intcon.Columns.Add("GIE");
-            t_intcon.Columns.Add("PIE");
-            t_intcon.Columns.Add("T0IE");
-            t_intcon.Columns.Add("INTE");
-            t_intcon.Columns.Add("RBIE");
-            t_intcon.Columns.Add("T0IF");
-            t_intcon.Columns.Add("INTF");
-            t_intcon.Columns.Add("TBIF");
-            t_intcon.Rows.Add(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
 
@@ -164,9 +97,13 @@ namespace PicSimulatorGUI
 
             decoder.analyse(eprom[Pc]);
 
-            flankCheck();
+            sim.FlakenCheck flankCheck = new sim.FlakenCheck();
+            RB0 = flankCheck.flankCheck(RB0,oldRB0);
+            oldRB0 = RB0;
 
-            if (interruptCheck())
+            sim.InterruptCheck interruptCheck = new sim.InterruptCheck();
+
+            if (interruptCheck.interruptCheck())
             {
                 memory.writeBit(0xB, 7, 0);
 
@@ -295,65 +232,5 @@ namespace PicSimulatorGUI
             }
             oldRB4 = RB4;
         }
-
-       
-
-        public bool interruptCheck()
-        {
-            //GIE bit set
-            if ( ((memory.readByte(0xB) >> 7) & 1) == 1)
-            {
-                //timer0 interrupt
-                if ((((memory.readByte(0xB) >> 2) & 1) == 1) && (((memory.readByte(0xB) >> 5) & 1) == 1))
-                {
-                    return true;
-                }
-                //interrupt für INT(RB0)
-                var intcon = memory.readByte(0xB);
-                if ((((memory.readByte(0xB) >> 1) & 1) == 1) && (((memory.readByte(0xB) >> 4) & 1) == 1))
-                {
-                     return true;
-                }
-
-                //interrupt für RB4 - RB7
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public void flankCheck()
-        {
-            RB0 = memory.readByte(6) & 1;
-
-            if((memory.readByte(6) & 1 & 1) == 1)
-            {
-                memory.writeByte(0x30, 1);
-            }
-            
-            if ((memory.readByte(6) & 1 & 1) == 0)
-            {
-                memory.writeByte(0x30, 2);
-            }
-
-            //check if interrupt at rising flank is true
-            if (RB0 > oldRB0 && ((memory.readByte(0x81) >> 6) & 1) == 1)
-            {
-                memory.writeBit(0xB, 1, 1);
-
-            }
-            var z = memory.readByte(0x81);
-            var y = z >> 6;
-            if (RB0 < oldRB0 && ((memory.readByte(0x81) >> 6) & 1) == 0)
-            {
-                memory.writeBit(0xB, 1, 1);
-            }
-
-            
-            oldRB0 = RB0;
-        }
-
     }
 }
