@@ -4,38 +4,68 @@ namespace PicSimulatorGUI
 {
     public class Memory
     {
+         //Datatable for the registers as display
+        public registers.SpezialRegister spezReg;
+        
+        public registers.Table table;
+        public registers.T_PortA t_portA;
+        public registers.T_PortB t_portB;
+        public registers.T_Status t_status;
+        public registers.T_Option t_option;
+        public registers.T_Intcon t_intcon; 
+        
 
-        Simulator simulator;
+
 
         public int W { get; set;}
 
         public int[] returnAddr = new int[6];
-
+        public int Pc{ get; set;}
         public int stackPointer = 0;
         public int wdTimer;
+        public int partTimer;
+        public int timer;
+        public double runtime = 0;
 
-        public Memory(Simulator x)
+
+        public Memory()
         {
-            simulator = x;
+            fillTables();
         }
 
-        public int getProgramCounter()
+        public void fillTables()
         {
-            return simulator.Pc;
+            spezReg = new registers.SpezialRegister("test");
+            spezReg.fillNew();
+
+            t_intcon = new registers.T_Intcon("");
+            t_intcon.fillNew();
+
+            t_portB = new registers.T_PortB("");
+            t_portB.fillNew();
+
+            t_portA = new registers.T_PortA("");
+            t_portA.fillNew();
+
+            t_option = new registers.T_Option("");
+            t_option.fillNew();
+
+            t_status = new registers.T_Status("");
+            t_status.fillNew();
+
+            table = new registers.Table("");
+            table.fillNew();
+
         }
 
-        public void setProgramCounter(int value)
-        {
-            simulator.Pc = value;
-        }
 
         public void incrementTimer()
         {
             if (readByte(1) != 0 && ((readByte(0x81) >> 5) & 1) == 0)
             {
-                simulator.partTimer++;
+                partTimer++;
             }
-            simulator.runtime++;
+            runtime++;
         }
         
 
@@ -53,7 +83,7 @@ namespace PicSimulatorGUI
         {
 
             //check RP0 Bit
-            if (((int.Parse((string)simulator.table.Rows.Find("0")["3"], System.Globalization.NumberStyles.HexNumber) & 0x20) == 0x20) && registerAddress <= 0x7F)
+            if (((int.Parse((string)table.Rows.Find("0")["3"], System.Globalization.NumberStyles.HexNumber) & 0x20) == 0x20) && registerAddress <= 0x7F)
             {
                 registerAddress += 0x80;
             }
@@ -68,7 +98,7 @@ namespace PicSimulatorGUI
 
             int key = FindKey(registerAddress);
             int column = (registerAddress % 8) + 1;
-            System.Data.DataRow foundRow = simulator.table.Rows.Find(key.ToString("X"));
+            System.Data.DataRow foundRow = table.Rows.Find(key.ToString("X"));
             if (foundRow != null)
             {
                 int value = int.Parse((string)foundRow[column], System.Globalization.NumberStyles.HexNumber);
@@ -97,8 +127,8 @@ namespace PicSimulatorGUI
             //TMR0 register
             if (registerAddress == 1)  
             {
-                simulator.partTimer = 0;
-                simulator.timer = value;
+                partTimer = 0;
+                timer = value;
                     
             }
 
@@ -108,7 +138,7 @@ namespace PicSimulatorGUI
             //Manipulation of PCL register
             if (registerAddress == 2 || registerAddress == 0x82)
             {
-                simulator.Pc = (((readByte(0xA) & 0x1F) << 8) + value);
+                Pc = (((readByte(0xA) & 0x1F) << 8) + value);
             }
 
 
@@ -129,13 +159,13 @@ namespace PicSimulatorGUI
             //mirroring banks GPR
             if ((registerAddress >= 0xc && registerAddress <= 0x7F) || registerAddress == 0x2 || registerAddress == 0x3 || registerAddress == 0x4 || registerAddress == 0xA || registerAddress == 0xB)
             {
-                foundRow = simulator.table.Rows.Find(key.ToString("X"));
+                foundRow = table.Rows.Find(key.ToString("X"));
                 if (foundRow != null)
                 {
                     foundRow[column] = checktwohex(value);
                 }
 
-                foundRow2 = simulator.table.Rows.Find((key + 0x80).ToString("X"));
+                foundRow2 = table.Rows.Find((key + 0x80).ToString("X"));
                 if (foundRow2 != null)
                 {
                     
@@ -145,13 +175,13 @@ namespace PicSimulatorGUI
             }
             else if((registerAddress >= 0x8C && registerAddress <= 0xFF) || registerAddress == 0x82 || registerAddress == 0x83 || registerAddress == 0x84 || registerAddress == 0x8A || registerAddress == 0x8B)
             {
-                foundRow = simulator.table.Rows.Find(key.ToString("X"));
+                foundRow = table.Rows.Find(key.ToString("X"));
                 if (foundRow != null)
                 {
                     foundRow[column] = checktwohex(value);
                 }
 
-                foundRow2 = simulator.table.Rows.Find((key - 0x80).ToString("X"));
+                foundRow2 = table.Rows.Find((key - 0x80).ToString("X"));
                 if (foundRow2 != null)
                 {
                     foundRow2[column] = checktwohex(value);
@@ -165,11 +195,11 @@ namespace PicSimulatorGUI
                 if ((readByte(3) & 0x20) == 0x20)
                 {
 
-                    foundRow = simulator.table.Rows.Find((key + 0x80).ToString("X"));
+                    foundRow = table.Rows.Find((key + 0x80).ToString("X"));
                 }
                 else
                 {
-                    foundRow = simulator.table.Rows.Find(key.ToString("X"));
+                    foundRow = table.Rows.Find(key.ToString("X"));
                 }
 
                 if (foundRow != null)

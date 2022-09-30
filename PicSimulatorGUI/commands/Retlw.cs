@@ -14,7 +14,7 @@ namespace PicSimulatorGUI.commands
             int literal = opCode & 0xFF;
             
             memory.W = literal;
-            memory.setProgramCounter(memory.returnAddr[memory.stackPointer]);
+            memory.Pc = memory.returnAddr[memory.stackPointer];
             memory.stackPointer --;
             memory.incrementTimer();
 
