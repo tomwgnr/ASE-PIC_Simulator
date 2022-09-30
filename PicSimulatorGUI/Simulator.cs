@@ -6,14 +6,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using PicSimulatorGUI.registers;
-//using PicSimulatorGUI.registers;
+
 namespace PicSimulatorGUI
 {
     public class Simulator
     {
         //Datatable for the registers as display
         public registers.SpezialRegister spezReg;
+        
         public registers.Table table;
         public registers.T_PortA t_portA;
         public registers.T_PortB t_portB;
@@ -85,8 +85,7 @@ namespace PicSimulatorGUI
             table.fillNew();
 
         }
-
-
+        
         public void executeline()
         {
            
