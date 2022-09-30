@@ -213,8 +213,12 @@
     Ziel dieses Prinzips ist niedrige Kopplung sowie niedrige Komplexität innerhalb der Klasse. In diesem Projekt wurde dieses Prinzip in einigen Klassen angewandt. ein Beispiel dafür sind die Klassen der einzelnen Register. 
     Diese verfügen nur über eine einzige Zuständigkeit: das Auffüllen neuer Datentabellen zur dargestellung der einzelnen Register des Simulators.
     \\
-    Screenshot
-    \\
+    \begin{figure}
+        \centering
+        \includegraphics[width = .7 \linewidth]{"images/register.png"}
+        \caption{T_Intcon Klasse}
+    \end{figure}
+    
 
     Ein Negativbeispiel ist vor allem die 'Forms'-Klasse, welche viele Funktionen durchführt und damit eine hohe anzahl an Zuständigkeiten und Änderungsdimensionen besitzt. Auch die 'Simulator'-Klasse fällt trotz der Refactorings immernoch in diese Kategorie. 
 
@@ -225,11 +229,12 @@
     Diese sind alle in einzelnen Klassen definiert, welche von einer abstrakten Oberklasse "Command" erben. Soll ein neuer Command hinzugefügt werden, so kann eine neue Unterklasse davon erstellt werden. Um diese im Projekt zu integrieren, muss dieser lediglich der 'CommandList' in der 'Decoder'- Klasse hinzugefügt werden.
     Diese minimale Modifikation des Codes wird durch den Einsatz eines Entwurfsmusters in \autoref{sec:entwurfsmuster} ermöglicht. 
 
-    \subsubsection{Liskov substitution principle}
+    \begin{figure}
+        \centering
+        \includegraphics[width = .7 \linewidth]{"images/commandlist.png"}
+        \caption{liste der einzelnen Commands}
+    \end{figure}
 
-    \subsubsection{Interface segregation principle}
-
-    \subsubsection{Dependency inversion principle}
 
     \subsection{GRASP}
 
@@ -247,6 +252,12 @@
     \subsection{DRY -- Don't Repeat Yourself}
     Das DRY Principle ist eng mit dem Code Smell Duplicated Code verbunden, also mit Codeabschnitten, welche mehrfach im COde vorkommen. Um diese zu vermeiden besagt DRY, dass es für jede Information nur eine einzige Quelle gibt, auf welche der rest des Codes zugreift.
     Aufgrund der Ähnlichkeit mit Duplicated Code ist das beste Beispiel für den Einsatz des DRY Principles die auslagerung von Methode wie 'carryCheck()', 'zeroFlagCheck()' oder 'writeToDestination()' von den einzelnen Commands in eine abstrakte Oberklasse. So müssen diese nicht in jeder konkreten Klasse neu definiert werden. Für ein genaueres Bespiel, siehe \autoref{subsubsec:duplicated_code}.  
+
+    \begin{figure}
+        \centering
+        \includegraphics[width = .7 \linewidth]{"images/abstractCommand.png"}
+        \caption{Abstrakte Command Klasse mit ausgelagerter Methode}
+    \end{figure}
 
     \section{Entwurfsmuster: Zuständigkeitskette}\label{sec:entwurfsmuster}
 
