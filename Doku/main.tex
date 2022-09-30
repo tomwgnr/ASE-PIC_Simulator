@@ -115,9 +115,12 @@
 
     \subsection{Application}
     In der Application Schicht sind die einzelnen Use Cases beziehungsweise die Funktionalitäten des Projekts zu finden. Teil dieser Schicht ist die 'Simulator'- Klasse, welche den generellen Programmablauf steuert. Von ihr werden auch die anderen Klassen der Application Schicht aufgerufen.
-    Es gibt den Decoder, welcher den eingelesenen Operationcode ananlysiert und den entsprechenden Handler, also den entsprechenden Command in der Domain Schicht aufruft.
+    Es gibt den Decoder, welcher den eingelesenen Operationcode ananlysiert und den entsprechenden Handler, also den entsprechenden Command in der Domain Schicht aufruft. Außerdem befinden sich hier die 'InteruptChecker'- und 'FlankenChecker'-Klassen, welche Interrupts im PIC Simulieren, bzw abarbeiten.
+    Diese Klassen haben lediglich Abhängigkeiten zu der 'Memory'-Klasse also der Domain. 
 
     \subsection{Plugin}
+    In der Plugin Schicht befindet sich die 'Form1'-Klasse. Darin befindet sich die Konkrete implementierung der GUI, welche auf Windows Forms basiert. Der gesamte Code ist stark Framework abhängig, weshalb er in der äußersten Schicht plaziert ist.
+    Soll statt Forms eine andere Bibliothek/ Framework verwendet werden, kann dies ohne großen Aufwand ausgetauscht werden.
  
     \section{Refactoring}\label{sec:refactoring}
 
