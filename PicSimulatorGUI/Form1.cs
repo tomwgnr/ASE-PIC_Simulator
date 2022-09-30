@@ -47,10 +47,10 @@ namespace PicSimulatorGUI
             {
                 Console.WriteLine(e.StackTrace);
             }
-            PA.DataSource = sim.t_PortA.DefaultView;
-            PB.DataSource = sim.t_PortB.DefaultView;
+            PA.DataSource = sim.t_portA.DefaultView;
+            PB.DataSource = sim.t_portB.DefaultView;
             Status.DataSource = sim.t_status.DefaultView;
-            optionReg.DataSource = sim.t_Option.DefaultView;
+            optionReg.DataSource = sim.t_option.DefaultView;
             intcon.DataSource = sim.t_intcon.DefaultView;
 
             //initialze PA
@@ -406,11 +406,11 @@ namespace PicSimulatorGUI
                 string s = PA.Rows[x].Cells[y].Value.ToString();
                 if (s == "1")
                 {
-                    sim.t_PortA.Rows[x].SetField(y, "0");
+                    sim.t_portA.Rows[x].SetField(y, "0");
                 }
                 else if (s == "0")
                 {
-                    sim.t_PortA.Rows[x].SetField(y, "1");
+                    sim.t_portA.Rows[x].SetField(y, "1");
                 }
                 string binary = "";
                 for (int i = 1; i <= 8; i++)
@@ -434,11 +434,11 @@ namespace PicSimulatorGUI
                 string s = PB.Rows[x].Cells[y].Value.ToString();
                 if (s == "1")
                 {
-                    sim.t_PortB.Rows[x].SetField(y, "0");
+                    sim.t_portB.Rows[x].SetField(y, "0");
                 }
                 else if (s == "0")
                 {
-                    sim.t_PortB.Rows[x].SetField(y, "1");
+                    sim.t_portB.Rows[x].SetField(y, "1");
                 }
                 string binary = "";
                 for (int i = 1; i <= 8; i++)

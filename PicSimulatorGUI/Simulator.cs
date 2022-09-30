@@ -14,12 +14,12 @@ namespace PicSimulatorGUI
     {
         //Datatable for the registers as display
         public registers.SpezialRegister spezReg;
-        public DataTable table;
-        public DataTable t_PortA;
-        public DataTable t_PortB;
-        public DataTable t_status;
-        public DataTable t_Option;
-        public DataTable t_intcon; 
+        public registers.Table table;
+        public registers.T_PortA t_portA;
+        public registers.T_PortB t_portB;
+        public registers.T_Status t_status;
+        public registers.T_Option t_option;
+        public registers.T_Intcon t_intcon; 
         
         public string[] input;
 
@@ -56,107 +56,34 @@ namespace PicSimulatorGUI
             memory = new Memory(this);
             //cpu = new Cpu(this);
             decoder = new Decoder(memory);
-            fillNewTable();
-            fillextratables();
+            fillTables();
 
+
+        }
+
+        public void fillTables()
+        {
             spezReg = new registers.SpezialRegister("test");
             spezReg.fillNew();
 
-        }
+            t_intcon = new registers.T_Intcon("");
+            t_intcon.fillNew();
 
-        public void fillNewTable()
-        {
-            table = new DataTable("EPROM");
-            table.Columns.Add("Adr", typeof(String));
-            table.Columns.Add("0", typeof(String));
-            table.Columns.Add("1", typeof(String));
-            table.Columns.Add("2", typeof(String));
-            table.Columns.Add("3", typeof(String));
-            table.Columns.Add("4", typeof(String));
-            table.Columns.Add("5", typeof(String));
-            table.Columns.Add("6", typeof(String));
-            table.Columns.Add("7", typeof(String));
+            t_portB = new registers.T_PortB("");
+            t_portB.fillNew();
 
-            table.PrimaryKey = new DataColumn[] { table.Columns["Adr"] };
+            t_portA = new registers.T_PortA("");
+            t_portA.fillNew();
 
-            for (int i = 0; i < 0xFF; i += 8)
-            {
-                string j = i.ToString("X");
-                table.Rows.Add(j, "00", "00", "00", "00", "00", "00", "00", "00");
-            }
-        }
+            t_option = new registers.T_Option("");
+            t_option.fillNew();
 
+            t_status = new registers.T_Status("");
+            t_status.fillNew();
 
-        public void fillextratables()
-        {
-            /* spezialRegister = new DataTable("spezial");
-            spezialRegister.Columns.Add("W", typeof(String));
-            spezialRegister.Columns.Add("FSR", typeof(String));
-            spezialRegister.Columns.Add("PCL", typeof(String));
-            spezialRegister.Columns.Add("PCLATH", typeof(String));
-            spezialRegister.Columns.Add("Status", typeof(String));
+            table = new registers.Table("");
+            table.fillNew();
 
-            spezialRegister.Rows.Add(0, 0, 0, 0, 0);
- */
-            t_PortA = new DataTable("porta");
-            t_PortA.Columns.Add("RA");
-            t_PortA.Columns.Add("7");
-            t_PortA.Columns.Add("6");
-            t_PortA.Columns.Add("5");
-            t_PortA.Columns.Add("4");
-            t_PortA.Columns.Add("3");
-            t_PortA.Columns.Add("2");
-            t_PortA.Columns.Add("1");
-            t_PortA.Columns.Add("0");
-            t_PortA.Rows.Add("Tris", "o", "o", "o", "o", "o", "o", "o", "o");
-            t_PortA.Rows.Add("Pin", 0, 0, 0, 0, 0, 0, 0, 0);
-
-
-            t_PortB = new DataTable("portb");
-            t_PortB.Columns.Add("RB");
-            t_PortB.Columns.Add("7");
-            t_PortB.Columns.Add("6");
-            t_PortB.Columns.Add("5");
-            t_PortB.Columns.Add("4");
-            t_PortB.Columns.Add("3");
-            t_PortB.Columns.Add("2");
-            t_PortB.Columns.Add("1");
-            t_PortB.Columns.Add("0");
-            t_PortB.Rows.Add("Tris", "o", "o", "o", "o", "o", "o", "o", "o");
-            t_PortB.Rows.Add("Pin", 0, 0, 0, 0, 0, 0, 0, 0);
-
-            t_status = new DataTable("status");
-            t_status.Columns.Add("IRP");
-            t_status.Columns.Add("RP1");
-            t_status.Columns.Add("RP0");
-            t_status.Columns.Add("TO");
-            t_status.Columns.Add("PD");
-            t_status.Columns.Add("Z");
-            t_status.Columns.Add("DC");
-            t_status.Columns.Add("C");
-            t_status.Rows.Add(0, 0, 0, 0, 0, 0, 0, 0);
-
-            t_Option = new DataTable("option");
-            t_Option.Columns.Add("RBP");
-            t_Option.Columns.Add("IE");
-            t_Option.Columns.Add("TOCS");
-            t_Option.Columns.Add("TOSE");
-            t_Option.Columns.Add("PSA");
-            t_Option.Columns.Add("PS2");
-            t_Option.Columns.Add("PS1");
-            t_Option.Columns.Add("PS0");
-            t_Option.Rows.Add(0, 0, 0, 0, 0, 0, 0, 0);
-
-            t_intcon = new DataTable("intcon");
-            t_intcon.Columns.Add("GIE");
-            t_intcon.Columns.Add("PIE");
-            t_intcon.Columns.Add("T0IE");
-            t_intcon.Columns.Add("INTE");
-            t_intcon.Columns.Add("RBIE");
-            t_intcon.Columns.Add("T0IF");
-            t_intcon.Columns.Add("INTF");
-            t_intcon.Columns.Add("TBIF");
-            t_intcon.Rows.Add(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
 

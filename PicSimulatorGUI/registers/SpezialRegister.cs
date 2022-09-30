@@ -1,17 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace PicSimulatorGUI.registers
 {
-    public class SpezialRegister : Register
+    public class SpezialRegister : DataTable
     {
-        public SpezialRegister(string? tableName) :base(tableName)
+        public SpezialRegister(string tableName) :base(tableName)
         {}
         public void fillNew()
         {
