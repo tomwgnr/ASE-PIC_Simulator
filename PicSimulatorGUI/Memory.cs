@@ -38,22 +38,22 @@ namespace PicSimulatorGUI
             spezReg = new registers.SpezialRegister("test");
             spezReg.fillNew();
 
-            t_intcon = new registers.T_Intcon("");
+            t_intcon = new registers.T_Intcon("intcon");
             t_intcon.fillNew();
 
-            t_portB = new registers.T_PortB("");
+            t_portB = new registers.T_PortB("portb");
             t_portB.fillNew();
 
-            t_portA = new registers.T_PortA("");
+            t_portA = new registers.T_PortA("porta");
             t_portA.fillNew();
 
-            t_option = new registers.T_Option("");
+            t_option = new registers.T_Option("option");
             t_option.fillNew();
 
-            t_status = new registers.T_Status("");
+            t_status = new registers.T_Status("status");
             t_status.fillNew();
 
-            table = new registers.Table("");
+            table = new registers.Table("EPROM");
             table.fillNew();
 
         }
