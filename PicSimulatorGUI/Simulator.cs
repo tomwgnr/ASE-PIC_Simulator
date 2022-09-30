@@ -6,20 +6,21 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+//using PicSimulatorGUI.registers;
+//using PicSimulatorGUI.registers;
 namespace PicSimulatorGUI
 {
     public class Simulator
     {
         //Datatable for the registers as display
-        public DataTable spezialRegister;
+        public registers.SpezialRegister spezReg;
         public DataTable table;
         public DataTable t_PortA;
         public DataTable t_PortB;
         public DataTable t_status;
         public DataTable t_Option;
-        public DataTable t_intcon;
-
+        public DataTable t_intcon; 
+        
         public string[] input;
 
         public bool reset = false;
@@ -57,6 +58,10 @@ namespace PicSimulatorGUI
             decoder = new Decoder(memory);
             fillNewTable();
             fillextratables();
+
+            spezReg = new registers.SpezialRegister("test");
+            spezReg.fillNew();
+
         }
 
         public void fillNewTable()
@@ -81,9 +86,10 @@ namespace PicSimulatorGUI
             }
         }
 
+
         public void fillextratables()
         {
-            spezialRegister = new DataTable("spezial");
+            /* spezialRegister = new DataTable("spezial");
             spezialRegister.Columns.Add("W", typeof(String));
             spezialRegister.Columns.Add("FSR", typeof(String));
             spezialRegister.Columns.Add("PCL", typeof(String));
@@ -91,7 +97,7 @@ namespace PicSimulatorGUI
             spezialRegister.Columns.Add("Status", typeof(String));
 
             spezialRegister.Rows.Add(0, 0, 0, 0, 0);
-
+ */
             t_PortA = new DataTable("porta");
             t_PortA.Columns.Add("RA");
             t_PortA.Columns.Add("7");

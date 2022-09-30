@@ -40,7 +40,13 @@ namespace PicSimulatorGUI
         void fillDataGrid()
         {
             Eprom.DataSource = sim.table.DefaultView;
-            spezialRegister.DataSource = sim.spezialRegister.DefaultView;
+            try{
+            spezialRegister.DataSource = sim.spezReg.DefaultView;
+            }
+            catch(NullReferenceException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
             PA.DataSource = sim.t_PortA.DefaultView;
             PB.DataSource = sim.t_PortB.DefaultView;
             Status.DataSource = sim.t_status.DefaultView;
@@ -219,11 +225,11 @@ namespace PicSimulatorGUI
         //update all the Elements of the GUI while program is running
         public void UpdateWindows()
         {
-            sim.spezialRegister.Rows[0].SetField(0, memory.W.ToString("X") + "h");
-            sim.spezialRegister.Rows[0].SetField(1, sim.table.Rows[0].Field<string>(5));    //FSR
-            sim.spezialRegister.Rows[0].SetField(2, sim.table.Rows[0].Field<string>(3));    //PCL
-            sim.spezialRegister.Rows[0].SetField(3, sim.table.Rows[1].Field<string>(3));    //PCLATH
-            sim.spezialRegister.Rows[0].SetField(4, sim.table.Rows[0].Field<string>(4));
+            sim.spezReg.Rows[0].SetField(0, memory.W.ToString("X") + "h");
+            sim.spezReg.Rows[0].SetField(1, sim.table.Rows[0].Field<string>(5));    //FSR
+            sim.spezReg.Rows[0].SetField(2, sim.table.Rows[0].Field<string>(3));    //PCL
+            sim.spezReg.Rows[0].SetField(3, sim.table.Rows[1].Field<string>(3));    //PCLATH
+            sim.spezReg.Rows[0].SetField(4, sim.table.Rows[0].Field<string>(4));
 
             //Port A
             var ha1 = sim.table.Rows[0].Field<string>(6);
