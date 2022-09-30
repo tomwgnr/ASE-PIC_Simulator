@@ -212,6 +212,10 @@
 
     \subsubsection{Low Coupling}
     
+    Kopplung ist die Abhängigkeit einer Klasse von seinem Umfeld. Die am leichtesten zu erkennenden Abhängigkeiten sich dabei die von anderen Klassen. Eine niedrige Kopplung ist sinnvoll, da dies zu einer erhöhten Flexibilität der führt. Solche Klassen sind leichter Wiederverwendbar, leichter lesbar und deutlich besser wartbar, da weniger Rücksicht auf die Abhängigkeiten genommen werden muss. 
+    
+
+    
     \subsection{DRY -- Don't Repeat Yourself}
     Das DRY Principle ist eng mit dem Code Smell Duplicated Code verbunden, also mit Codeabschnitten, welche mehrfach im COde vorkommen. Um diese zu vermeiden besagt DRY, dass es für jede Information nur eine einzige Quelle gibt, auf welche der rest des Codes zugreift.
     Aufgrund der Ähnlichkeit mit Duplicated Code ist das beste Beispiel für den Einsatz des DRY Principles die auslagerung von Methode wie 'carryCheck()', 'zeroFlagCheck()' oder 'writeToDestination()' von den einzelnen Commands in eine abstrakte Oberklasse. So müssen diese nicht in jeder konkreten Klasse neu definiert werden. Für ein genaueres Bespiel, siehe \autoref{subsubsec:duplicated_code}.  
