@@ -125,6 +125,12 @@
     In der Plugin Schicht befindet sich die 'Form1'-Klasse. Darin befindet sich die Konkrete implementierung der GUI, welche auf Windows Forms basiert. Der gesamte Code ist stark Framework abhängig, weshalb er in der äußersten Schicht plaziert ist.
     Soll statt Forms eine andere Bibliothek/ Framework verwendet werden, kann dies ohne großen Aufwand ausgetauscht werden.
  
+    \begin{figure}
+        \centering
+        \includegraphics[width = \linewidth]{"images/classdiagramm.png"}
+        \caption{Classendiagramm mit Unterteilung in Schichten}
+    \end{figure}
+
     \section{Refactoring}\label{sec:refactoring}
 
 
@@ -247,7 +253,6 @@
     \subsubsection{Low Coupling}
     
     Kopplung ist die Abhängigkeit einer Klasse von seinem Umfeld. Die am leichtesten zu erkennenden Abhängigkeiten sich dabei die von anderen Klassen. Eine niedrige Kopplung ist sinnvoll, da dies zu einer erhöhten Flexibilität der führt. Solche Klassen sind leichter Wiederverwendbar, leichter lesbar und deutlich besser wartbar, da weniger Rücksicht auf die Abhängigkeiten genommen werden muss. 
-    
 
     
     \subsection{DRY -- Don't Repeat Yourself}
@@ -267,5 +272,11 @@
     Im gegensatz zur Originalimplementierung ist hier allerdings die 'Decoder'- Klasse zwischen Client und konreten Handlern, in welcher alle Handler in einer Liste aufgeführt sind, durch welche dann iteriert wird. Anstatt dass jeder konkrete Handler seinen Nachfolger und nur diesen kennt, wird die Kette vollständig in der 'Decoder'- Klasse definiert.
     Diese Praxis weicht zwar von dem origalen Entwurfsmuster ab, verringert aber die Anzahl der Methoden in der 'Command'-Klasse und gestaltet den Aufbau und damit auch die Erweiterung der Kette übersichtlicher, da neue Commands lediglich der 'CommandList' hinzugefügt werden müssen,
     anstatt sie einzeln zu instanziieren und sie als nächsten Handler des zuvor letzten zu definieren.
+
+    \begin{figure}
+        \centering
+        \includegraphics[width = .7 \linewidth]{"images/zustaendigkeitskette.png"}
+        \caption{Zuständigkeitskette in UML}
+    \end{figure}
 
 \end{document}
