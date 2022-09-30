@@ -101,6 +101,23 @@
 
     \chapter{Entwicklung}\label{ch:entwicklung}
     \section{Clean Architecture}\label{sec:cleanarchitecture}
+
+    Eine Clean Architecture ist wichtig, um langlebige Software zu entwickeln. Hierbei wird der Code in Schichten unterteilt, welche sich durch deren Lebensdauer unterscheiden. Die innerste Schicht ist dabei der Kern der Applikation, also der Teil des Codes der nicht verändert werden muss.
+    Je weiter außen die Schicht ist, desto kurzlebiger ist der Code sodass ganz außen die Plugins stehen die nach einer gewissen Zeit outdated sind und ausgetauscht werden müssen um die Software Aktuell zu halten. 
+    Damit diese Austauschbarkeit möglich ist, dürfen die inneren Schichten nichts von den äußeren wissen, es darf also keine Abhängigkeiten von innen nach außen geben.
+    \\
+
+    Für dieses Projekt haben wir und für drei Schichten entschieden: Eine Domain Schicht, welche den Kern des PIC- Simulators beschreibt, eine Application Schicht, in dem die Use Cases definiert sind, und einer Plugin Schicht, welche die GUI beschreibt.
+
+    \subsection{Domain}
+    In der Domain Schicht befinden sich die Elemente des PIC- Simulators, welche sich nicht ändern werden. Dazu gehören zu einen die einzelnen Commands und der Speicher des Simulators. Dabei handelt es sich konkret um die 'Command'- Klasse mit den jeweiligen Unterklassen, die 'Memory'- Klasse, 
+    welche alle Speicherzugriffe bearbeitet sowie die einzelnen Register Klassen, welche den Aufbau des Speichers definieren. Diese Klassen haben alle keinerlei Abhängigkeiten nach außen und werden somit nicht von Veränderungen an den anderen Schichten beeinflusst.
+
+    \subsection{Application}
+    In der Application Schicht sind die einzelnen Use Cases beziehungsweise die Funktionalitäten des Projekts zu finden. Teil dieser Schicht ist die 'Simulator'- Klasse, welche den generellen Programmablauf steuert. Von ihr werden auch die anderen Klassen der Application Schicht aufgerufen.
+    Es gibt den Decoder, welcher den eingelesenen Operationcode ananlysiert und den entsprechenden Handler, also den entsprechenden Command in der Domain Schicht aufruft.
+
+    \subsection{Plugin}
  
     \section{Refactoring}\label{sec:refactoring}
 
