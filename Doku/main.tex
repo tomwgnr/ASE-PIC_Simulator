@@ -153,38 +153,26 @@
     
     \subsubsection{Duplicated Code}\label{subsubsec:duplicated_code}
 
-    Die einzelnen Commands beinhalten zu einem größen Teil gleiche oder ähnliche Funktionen, welche in jedem einzelnen Command neu implementiert wurden. Dadurch war ein beträchtlicher Teil des Codes mehrfach vorhanden, was zur Folge hatte,
-    dass eine Änderung immer an allen Commands durchgeführt werden musste. Dies wurde in dem Schritt gelöst, in dem auch die 'Cpu'- Klasse aufgelöst wurde und jeder Command in einer eingenen Klasse definiert wurde. 
-    Dabei wurde eine abstrakte Oberklasse 'Command' eingeführt, in welcher die sich widerholenden Funktionen definiert sind.
+    Die einzelnen Commands beinhalten zu einem größten Teil gleiche oder ähnliche Funktionen, welche in jedem einzelnen Command neu implementiert wurden. Dadurch war ein beträchtlicher Teil des Codes mehrfach vorhanden, was zur Folge hatte,
+    dass eine Änderung immer an allen Commands durchgeführt werden musste. Dies wurde in dem Schritt gelöst, in dem auch die 'Cpu'- Klasse aufgelöst wurde und jeder Command in einer eigenen Klasse definiert wurde. 
+    Dabei wurde eine abstrakte Oberklasse 'Command' eingeführt, in welcher die sich wiederholenden Funktionen definiert sind.
 
     \subsubsection{Large Class}
-    Für den Code Smell Large Klass gibt es zwei auffällige Beispiele. Bevor der Code Refactored wurde basierte der Großteil der Funktionalität auf zwei Klassen, 'Cpu' und 'Simulator', welche beide aus einigen hundert Zeilen Code bestanden und eine große Anzahl an Methoden beinhalteten.
+    Für den Code Smell Large Class gibt es zwei auffällige Beispiele. Bevor der Code Refactored wurde basierte der Großteil der Funktionalität auf zwei Klassen, 'Cpu' und 'Simulator', welche beide aus einigen hundert Zeilen Code bestanden und eine große Anzahl an Methoden beinhalteten.
     Dieser Aufbau verstößt gegen einige der Programming Principles, aber primär dem Single Responsibility Principle, weches in \autoref{subsubsec:single_responsibility} erläutert wird. Er stört dabei die Les- und Wartbarkeit des Codes sowie die Möglichkeit zur Erweiterung von Funktionalitäten.
-    Aus diesem Grund wurde die 'Cpu'- Klasse komplett aufgelöst und die  Simulator Klasse mit hilfe eines Extract Class Refactorings, welches anschließend erläutert wird, verkleinert.
+    Aus diesem Grund wurde die 'Cpu'- Klasse komplett aufgelöst und die  Simulator Klasse mit Hilfe eines Extract Class Refactorings, welches anschließend erläutert wird, verkleinert.
 
     \subsection{Refactoring}
-
     \subsubsection{Extract Method}
-
-    \subsubsection{Extract Class}
-
-
-
-
-    \subsection{Switch-Case in der CPU}
-    Natürlich musste der 220 Zeilen lange Switch-Case welcher in der \verb|CPU| Klasse die Befehle aufgrund des eingegebenen \verb|OpCode| 
-    gewählt und die hierfür nötigen Berechnungen direkt im Speicher ausführte.
-    Dieser wurde in die Klassen \verb|Memory| und \verb|Command| unterteilt. Die Auswahl wird jetzt im \verb|Decoder| erledigt.
-    Da die einzelnen Befehle sich sehr ähneln dient die Klasse \verb|Command| nur als Vorlage für die Klassen der Befehle im Namespace commands.
-    Hier werden Befehlsspezifische Aufgaben erledigt wie die Ausführung des jeweiligen Befehls aber auch die Überprüfung des OpCodes, um den Decoder sauberer zu halten.
-    \subsection{Register}
-    Da die Register auch mit vielem Anderen noch in der \verb|Simulator| Klasse  waren wurden diese auch in Einzelne Klassen im Namespace \verb|register| untergebracht. 
-    Wie auch bei den Befehlen sind hier grundlegende Aufgaben wie das erstellen des Registers nun in jeder Klasse für jedes Register als Methode untergebracht.
-    \subsection{Interupt- und FlankenCheck}
-   Auch die Methoden für die Checks auf Interrupts und Flanken wurden im Rahmen des Refactoring in eigene Klassen gepackt um die Simulator Klasse zu vereinfachen.
+	Um die Simulator Klasse zu vereinfachen wurden die Methoden welche die Register erstellen und Anfangs mit Daten füllen jeweils in eigene Klassen gepackt und in einem Namespace untergebracht.
+	Hiermit ist die Simulator Klasse um einiges geschrumpft.
+	Um noch ein wenig weiter für Ordnung zu sorgen ist eine Methode erstellt worden welche die Aufgebe hat aus den Register Klassen oObjekte zu erstellen und deren Methode zum füllen aufzurufen. 
+	
+    \subsubsection{Interupt- und Flanken-Check}
+   	Auch die Methoden für die Checks auf Interrupts und Flanken wurden im Rahmen des Refactoring in eigene Klassen gepackt um die Simulator Klasse zu vereinfachen.
    
    
-   \section{Unit-Tests}
+   	\section{Unit-Tests}
     Die Unit-Test können im Ordner /PicSimTest gefunden werden. 
 	Mit diesen Tests werden viele unserer Klassen getestet.
 	Um die (Unit-)Tests für C\# zu schreiben wird hier das MSTest Framework genutzt welches es in Kombination mit Visual Studio ermöglicht die Tests automatisch laufen zu lassen.
@@ -205,6 +193,7 @@
     
 
     \subsubsection{Repeatable}
+    Da für unsere Tests die Daten Statisch sind und direkt in den Test Methoden eingebettet sind sollten die Tests jederzeit,  auch auf anderen Systemen, reproduzierbare Ergebnisse liefern.
 
     \subsubsection{Independent}
 	Um Unabhängigkeit voneinander zu haben sind die Tests für eine Klasse jeweils in einer eigenen TestClass und darin sind nur die Testmethoden für die Methoden der zu Testenden Klasse enthalten.
