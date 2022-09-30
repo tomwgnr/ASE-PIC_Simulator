@@ -7,9 +7,10 @@ namespace PicSimulatorGUI.sim
     {
 
         public Memory memory;
-        public bool interruptCheck()
+        public bool interruptCheck(ref Memory mem)
         {
             //GIE bit set
+            memory = mem;
             if ( ((memory.readByte(0xB) >> 7) & 1) == 1)
             {
                 //timer0 interrupt

@@ -98,12 +98,12 @@ namespace PicSimulatorGUI
             decoder.analyse(eprom[Pc]);
 
             sim.FlakenCheck flankCheck = new sim.FlakenCheck();
-            RB0 = flankCheck.flankCheck(RB0,oldRB0);
+            RB0 = flankCheck.flankCheck(RB0,oldRB0,ref memory);
             oldRB0 = RB0;
 
             sim.InterruptCheck interruptCheck = new sim.InterruptCheck();
 
-            if (interruptCheck.interruptCheck())
+            if (interruptCheck.interruptCheck(ref memory))
             {
                 memory.writeBit(0xB, 7, 0);
 
