@@ -97,9 +97,13 @@ namespace PicSimulatorGUI
 
             decoder.analyse(eprom[Pc]);
 
-            flankCheck();
+            sim.FlakenCheck flankCheck = new sim.FlakenCheck();
+            RB0 = flankCheck.flankCheck(RB0,oldRB0);
+            oldRB0 = RB0;
 
-            if (interruptCheck())
+            sim.InterruptCheck interruptCheck = new sim.InterruptCheck();
+
+            if (interruptCheck.interruptCheck())
             {
                 memory.writeBit(0xB, 7, 0);
 
@@ -228,65 +232,5 @@ namespace PicSimulatorGUI
             }
             oldRB4 = RB4;
         }
-
-       
-
-        public bool interruptCheck()
-        {
-            //GIE bit set
-            if ( ((memory.readByte(0xB) >> 7) & 1) == 1)
-            {
-                //timer0 interrupt
-                if ((((memory.readByte(0xB) >> 2) & 1) == 1) && (((memory.readByte(0xB) >> 5) & 1) == 1))
-                {
-                    return true;
-                }
-                //interrupt für INT(RB0)
-                var intcon = memory.readByte(0xB);
-                if ((((memory.readByte(0xB) >> 1) & 1) == 1) && (((memory.readByte(0xB) >> 4) & 1) == 1))
-                {
-                     return true;
-                }
-
-                //interrupt für RB4 - RB7
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public void flankCheck()
-        {
-            RB0 = memory.readByte(6) & 1;
-
-            if((memory.readByte(6) & 1 & 1) == 1)
-            {
-                memory.writeByte(0x30, 1);
-            }
-            
-            if ((memory.readByte(6) & 1 & 1) == 0)
-            {
-                memory.writeByte(0x30, 2);
-            }
-
-            //check if interrupt at rising flank is true
-            if (RB0 > oldRB0 && ((memory.readByte(0x81) >> 6) & 1) == 1)
-            {
-                memory.writeBit(0xB, 1, 1);
-
-            }
-            var z = memory.readByte(0x81);
-            var y = z >> 6;
-            if (RB0 < oldRB0 && ((memory.readByte(0x81) >> 6) & 1) == 0)
-            {
-                memory.writeBit(0xB, 1, 1);
-            }
-
-            
-            oldRB0 = RB0;
-        }
-
     }
 }
