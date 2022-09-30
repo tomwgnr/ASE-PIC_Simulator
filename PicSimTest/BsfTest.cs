@@ -30,7 +30,7 @@ public class BsfTest
         //andlw = new PicSimulatorGUI.commands.Andlw();
         //addlw.memory.W = 0x0000;
         //Act
-        bool res = bsf.isOpCode(0x3900);
+        bool res = bsf.isOpCode(0x1400);
         //Assert
         //Console.WriteLine(res);
         Assert.IsTrue(res);
