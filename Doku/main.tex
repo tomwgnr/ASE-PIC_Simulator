@@ -131,8 +131,6 @@
 
     \subsubsection{Extract Method}
 
-    \colorbox[mygreen]{writeByte!}
-
 
     \section{Unit Tests}
 
@@ -172,6 +170,16 @@
     
     \subsection{DRY -- Don't Repeat Yourself}
 
-    \section{Entwurfsmuster}\label{sec:entwurfsmuster}
+    \section{Entwurfsmuster: Zuständigkeitskette}\label{sec:entwurfsmuster}
+
+    Wie bereits in den Code Smells in \autoref{sec:refactoring} erwähnt, handelte es sich bei dem Teil des Codes, welcher die Operationcodes des eingelesenen Programmes decodiert um ein überdimensionalen Switch- Statement.
+    Dieser sollte vermieden werden. Außerdem sollte die "Cpu"- Klasse aufgelöst werden und jeder Command als eigene Klasse dargestellt werden. Zur Lösung dieser Probleme wurde die Zuständigkeitskette entdeckt.
+    Dabei handelt es sich um ein Entwurfsmuster aus der Reihe der Verhaltensmuster, zu welchen auch der Beobachter gehört. 
+    \\
+    Eine Zuständigkeitskette dient dazu, verschiedene Anfragen eines Clients zu bearbeiten, welche an das selbe Interface gesendet werden. Dieses Interface wird dabei als Base Handler bezeichnet. Dazu wird die Anfrage an eine Kette von sogenannten konkreten Handlern geleitet.
+    Ist eine Handler für die jeweilige Anfrage zuständig, so wird sie von diesem bearbeitet. Wenn nicht, wird sie an den nächsten Handler der Kette weitergegeben. Der Client muss dabei nicht wissen, von welchem Handler die Anfrage bearbeitet wurde und die konkreten Handler kennen lediglich ihren jeweilige Nachfolger.
+    \\
+    In diesem Fall ist die Anfrage der Operationcode des aktuellen Befehls im eingelesenen Programm, welcher von der "Simulator"- Klasse in der Rolle als Client gestellt wird. Die konkreten Handler sind die einzelnen Commands, welche in der Methode "isOpCode()" überprüfen, ob sie für den Befehl zuständig sind.
+    Im gegensatz zur Originalimplementierung ist hier allerdings 
 
 \end{document}
