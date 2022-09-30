@@ -29,7 +29,7 @@ namespace PicSimulatorGUI
 
 
         public Form1()
-        {
+        { 
             InitializeComponent();
             sim = new Simulator();
             memory = sim.memory;

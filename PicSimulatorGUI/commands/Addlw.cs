@@ -2,7 +2,7 @@
 namespace PicSimulatorGUI.commands
 {
 
-    class Addlw : Command
+    public class Addlw : Command
     {
 
 
