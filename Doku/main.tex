@@ -14,6 +14,7 @@
 \usepackage{hyperref}
 \usepackage{listings}
 \usepackage{textcomp}
+\usepackage{footnote}
 \geometry{a4paper, top=25mm, left=25mm, right=25mm, bottom=25mm,
     headsep=10mm, footskip=12mm}
 \usepackage{xcolor}
@@ -91,9 +92,15 @@
     \pagenumbering{arabic}
 
     \chapter{Projektbeschreibung}\label{ch:projektbeschreibung}
+<<<<<<< Updated upstream
     Als Basis für diese Arbeit dient ein PIC-Simulator, PIC steht hierbei für ein Mikrocontroller von Microchip Technology\footnote{\url{https://en.wikipedia.org/wiki/Microchip_Technology}}.
-    Der Simulator ist in C-\# geschrieben und mit Windows Forms Erhält er seine Grafische Oberfläche.
+    Der Simulator ist in C\# geschrieben und mit Windows Forms Erhält er seine Grafische Oberfläche.
     \textbf{Das für diese Abgabe relevante Repository befindet sich unter:} \\ \url{https://github.com/tomwgnr/ASE-PIC_Simulator}\\
+=======
+    Als Basis für diese Arbeit dient ein PIC-Simulator, PIC steht hierbei für ein Mikrocontroller von Mikrochip Technology\footnote{\url{https://en.wikipedia.org/wiki/Microchip_Technology}} .
+    Der Simulator ist in C-\# geschrieben und mit Windows Forms Erhält er seine Grafische Oberfläche.
+    \textbf{Das für diese Abgabe relevante Repository befindet sich unter:} \url{https://github.com/tomwgnr/ASE-PIC_Simulator}
+>>>>>>> Stashed changes
     
     
 
@@ -103,22 +110,46 @@
     \section{Clean Architecture}\label{sec:cleanarchitecture}
  
     \section{Refactoring}\label{sec:refactoring}
-
-    \section{Unit Tests}
-
+    \subsection{Switch-Case in der CPU}
+    Natürlich musste der 220 Zeilen lange Switch-Case welcher in der \verb|CPU| Klasse die Befehle aufgrund des eingegebenen \verb|OpCode| 
+    gewählt und die hierfür nötigen Berechnungen direkt im Speicher ausführte.
+    Dieser wurde in die Klassen \verb|Memory| und \verb|Command| unterteilt. Die Auswahl wird jetzt im \verb|Decoder| erledigt.
+    Da die einzelnen Befehle sich sehr ähneln dient die Klasse \verb|Command| nur als Vorlage für die Klassen der Befehle im Namespace commands.
+    Hier werden Befehlsspezifische Aufgaben erledigt wie die Ausführung des jeweiligen Befehls aber auch die Überprüfung des OpCodes, um den Decoder sauberer zu halten.
+    \subsection{Register}
+    Da die Register auch mit vielem Anderen noch in der \verb|Simulator| Klasse  waren wurden diese auch in Einzelne Klassen im Namespace \verb|register| untergebracht. 
+    Wie auch bei den Befehlen sind hier grundlegende Aufgaben wie das erstellen des Registers nun in jeder Klasse für jedes Register als Methode untergebracht.
+    \subsection{Interupt- und FlankenCheck}
+    Auch die Methoden für die Checks auf Interrupts und Flanken wurden im Rahmen des Refactoring in eigene Klassen gepackt um die Simulator Klasse zu vereinfachen.
+    \section{Unit-Tests}
+    Die Unit-Test können im Ordner /PicSimTest gefunden werden. 
+	Mit diesen Tests werden viele unserer Klassen getestet.
+	Um die (Unit-)Tests für C\# zu schreiben wird hier das MSTest Framework genutzt welches es in Kombination mit Visual Studio ermöglicht die Tests automatisch laufen zu lassen.
     \subsection{Einsatz von Mocks}
-
+    Zum Testen einiger Methoden werden Mock-Objekte erstellt um die Test so abgetrennt wie möglich halten zu können.
+	Um dies einfach machen zu können wird moq\footnote{\url{https://github.com/moq/moq4}} genutzt.
+	Moq ermöglicht es einfach aus Klassen Mock-Objekte zu erstellen welche dann zum Testen genutzt werden können.
+	
     \subsection{ATRIP-Regeln}
+	\label{subsec:atrip-regeln}
 
     \subsubsection{Automatic}
-
+	Visual Studio ermöglicht es mit einem Klick alle Test Durchlaufen zu lassen und findet hier auch neue Test im Projekt \verb|PicSimTest| wenn diese mit den richtigen Attributen \verb|[TestClass]| oder \verb|[TestMethode]| versehen wurden.
+	
     \subsubsection{Thorough}\label{subsec:thorough}
+    Da die Klassen der Befehle und der Register den Großteil der Rechenarbeit des simulierten Pic erledigen werden diese auf ihr verhalten getestet.
+    
 
     \subsubsection{Repeatable}
 
     \subsubsection{Independent}
-
+	Um Unabhängigkeit voneinander zu haben sind die Tests für eine Klasse jeweils in einer eigenen TestClass und darin sind nur die Testmethoden für die Methoden der zu Testenden Klasse enthalten.
+ 	Durch die Konzeption der Tests können diese in belibiger Reihenfolge oder auch einzeln Ausgeführt werden. 
+ 	Dies Ermöglicht es auch einzelne Programmabschnitte zu testen ohne auf viele Tests warten zu müssen.
     \subsubsection{Professional}
+    Um die Absicht des Tests klar und und einfach verständlich zu gestalten sind die Testmethoden und Testklassen Namen selbsterklärend gewählt. 
+    So heißt die Klasse des Test für den im Simulator genutzten Befehl \verb|Addlw|  \verb|AddlwTest|.
+    Auch die Test Methoden selbsterklärend so wird die Methode \verb|isOpCode| im Objekt Addlw von der Methode \verb|isOpCode_rightCode| auf Verhalten bei Eingabe des richtigen Codes getestet.
 
     \section{Programming Principles}
 
